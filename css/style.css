@@ -21,13 +21,20 @@ body {
 
 /* logo AND LOGO */
 #logo {
-  width: 80%;
+  width: 60%;
   overflow: hidden;
+  margin:0 auto;
 }
 
 #logo img {
   vertical-align:middle;
   display: inline-block;
+  /*float: left;*/
+}
+
+#logo span {
+  display: inline-block;
+  vertical-align:middle;
 }
 
 #logo h1 {
@@ -40,7 +47,7 @@ body {
   display: inline-block;
   margin: 1px;
   padding: 1px;
-  //vertical-align:middle;
+  vertical-align:middle;
 }
 
 #logo h3 {
@@ -53,7 +60,7 @@ body {
   display: inline-block;
   margin: 1px;
   padding: 1px;
-  //vertical-align:middle;
+  vertical-align:middle;
 }
 
 /* LINK BAR */
@@ -101,9 +108,41 @@ li a:hover {
 }
 
 /* BODY */
+#article {
+  width: 70%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#projects {
+  width: 90%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.pics{
+ width: 275px;
+ height: 275px;
+ float: left;
+}
+
+.pics img{
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+}
+
+.descrip {
+  margin-left: 275px;
+  width: 600px;
+
+}
 
 /* FOOTER */
 #footer {
   width: 80%;
   bottom: 0;
 }
+
+span.clear { clear: left; display: block; }
