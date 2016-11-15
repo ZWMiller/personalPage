@@ -1,0 +1,109 @@
+
+/* WHOLE PAGE */
+html,
+body {
+  font-family: Sans-Serif;
+  background-color: #333;
+  height: 100%;
+}
+#content {
+  background-color: #FFF;
+  width: 90%;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  margin-left: auto; 
+  margin-right: auto;
+  height: auto !important; 
+  min-height: 100%; 
+  position: relative;
+}
+
+/* logo AND LOGO */
+#logo {
+  width: 80%;
+  overflow: hidden;
+}
+
+#logo img {
+  vertical-align:middle;
+  display: inline-block;
+}
+
+#logo h1 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  font-size: 36px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
+  display: inline-block;
+  margin: 1px;
+  padding: 1px;
+  //vertical-align:middle;
+}
+
+#logo h3 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  font-size: 20px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+  display: inline-block;
+  margin: 1px;
+  padding: 1px;
+  //vertical-align:middle;
+}
+
+/* LINK BAR */
+#linkBar {
+  width: 80%;
+}
+
+li {
+  display: inline; 
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  height: 30px;
+  text-align: justify;
+}
+
+ul li {width:20%;
+  list-style:none;
+  display:inline-block;
+  text-align:justify;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 5px 2px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #333;
+  color: #FFF
+}
+
+/* BODY */
+
+/* FOOTER */
+#footer {
+  width: 80%;
+  bottom: 0;
+}
