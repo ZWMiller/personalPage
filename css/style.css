@@ -5,6 +5,7 @@ body {
   font-family: Sans-Serif;
   background-color: #333;
   height: 100%;
+  text-align: justify;
 }
 #content {
   background-color: #FFF;
@@ -102,7 +103,7 @@ li a {
 }
 
 /* Change the link color to #111 (black) on hover */
-li a:hover {
+#linkBar li a:hover {
   background-color: #333;
   color: #FFF
 }
@@ -144,5 +145,24 @@ li a:hover {
   width: 80%;
   bottom: 0;
 }
+
+#mediaLinks {
+  width: 60%;
+
+}
+
+#mediaLinks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  height: 60px;
+  text-align: justify;
+}
+
+
+/* GENERIC */
 
 span.clear { clear: left; display: block; }
