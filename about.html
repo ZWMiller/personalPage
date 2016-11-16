@@ -7,44 +7,71 @@
     <title>
       Zachariah W Miller - Data Analysis, Physics, Software
     </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/about_style.css">
+    <link rel="icon" type="image/png" href="images/favicon2.png" sizes="32x32">
   </head>
   <body>
-    <header>
+    <div id="content">
       <center>
-        <h1>Zachariah W Miller, PhD</h1>
-        <h3>Data Analysis - Physics - Software</h3>
-        <div id="linkBar">
-          <hr>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="resume.html">Resum&egrave;</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-          <hr>
-          <hr>
+        <div id="logo">
+          <img src="images/Logo_v2_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Analysis - Physics - Software</h3>
+          </div>
         </div>
       </center>
-    </header>
-    <br>
-    <main>
-    <article>
-      <center>
-        <%= yield %>
-        <div> TEST ABOUT STUFF HERE</div>
-      </center>
-    </article>
-    </main>
-    <footer>
-      <center>
-        <div id="footer">
-          <hr>
-          <small>Copyright &copy; 2016 Zachariah Miller</small>
+      <!-- <center>
+        <div id="logo">
+        <img src="images/sampleBanner.png" alt="ZWM Banner">
         </div>
-      </center>
-    </footer>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="resume.html">Resum&egrave;</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <img src="images/zachAtUkAccelerator.jpg" class="pics" alt="Zach at UKy Accelerator">
+          <br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Greetings! I'm Zach, and I love digging into deep questions using data analysis techniques. I started out my career by getting a Ph.D. in Physics and applying my love of statistics and coding to the "deep problems of the universe." I've run experiements that studied how nuclei split apart to release energy (nuclear fission), what makes up a nucleus, and numerous other physics topics. All of these tasks shared two common themes: how do we get tons of data and what do we do with it once we have it? Solving these problems was the key to unlocking the answers to the puzzles of the universe. However, for me, what always mattered the most was problem solving through data techniques. So, yes, I've loved working with huge collaborations to study what happened in the first nanoseconds after the Big Bang... but I'm just as excited to use analysis techniques to predict what soup someone will eat based on their lifestyle! I'm also a musician, a rock climber, and have a deep love of green chile.<br><br> 
+          For my undergraduate education, I attended Eastern Kentucky University getting a Bachelors of Science in Physics with minors in Mathematics and Spanish. One of the last projects I completed as an undergraduate was to write my Honor's Thesis on Cepheid variable stars. These are stars that have a fluctuating light intensity due to their chemical makeup, and that flucutating light pattern can be recorded and then used to determine how far away a star is from Earth. As part of this project, I setup and calibrated a brand new telescope and made the first measurements of light curves using the telescope. From there, I was hooked on experimentation and the idea that deep truths lie within data. To further my skillset, I applied to, and was accepted into, graduate school in physics. Over the next few years at the University of Kentucky, I received a number of accolades for my teaching and research including the "Outstanding Teaching Assitant" award at UK, presentations at the American Physical Society Meeting, and an invited talk at Los Alamos National Laboratory. I was also published multiple times in top peer-reviewed journals.<br><br>
+          <img src="images/neutronDetector.jpg" class="picsRight" alt="Neutron Detector Light">
+          For my PhD Dissertation, I built an experiment from the ground up. I started by building the detectors necessary to record the data (shown right). I also built the data acquisition interface (DAQ), which takes electrical pulses from the detectors and converts them to numbers we can use to categorize and study the detected particles. The DAQ work was particularly interesting, as it involved using USB interfaces to connect to machinery, and extract dozens of individual bits of encoded data. The data had to be converted to a human-readable format and stored in an intelligent way, as well as being displayed on the fly so that we could monitor the data as it was taken. Alongside this, it needed to have an accessible GUI and numerous other small features like the ability to set a timer, the ability to save the data incrementally, the ability to show correlations between data, and numerous other features.
+        </div>
+        <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zach-miller-aab09594"><img src="images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="images/githubLogo.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2016 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
   </body>
 </html>
 

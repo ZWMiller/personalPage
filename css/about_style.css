@@ -3,7 +3,7 @@
 html,
 body {
   font-family: Sans-Serif;
-  font-size: 20px;
+  font-size: 18px;
   background-color: #333;
   height: 100%;
   text-align: justify;
@@ -129,9 +129,13 @@ li a {
 
 .pics{
   width: 30%;
-  height: 275px;
   float: left;
-  position: relative;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
 }
 
 .pics img{
@@ -139,6 +143,22 @@ li a {
   -moz-border-radius: 20px;
   border-radius: 20px;
   border:1px solid #333;
+}
+
+.picsRight{
+  width: 30%;
+  float: right;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .descrip {
