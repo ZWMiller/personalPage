@@ -3,10 +3,11 @@
 html,
 body {
   font-family: Sans-Serif;
-  font-size: 18px;
+  /*font-size: 18px;*/
+  font-size: 1.4vw;
   background-color: #333;
   height: 100%;
-  text-align: justify;
+  text-align: left;
 }
 #content {
   background-color: #FFF;
@@ -138,13 +139,6 @@ li a {
   margin:20px;
 }
 
-.pics img{
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  border:2px solid #333;
-}
-
 .picsRight{
   width: 40%;
   float: right;
@@ -152,13 +146,26 @@ li a {
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   border-radius: 20px;
-  border:2px solid #333;
+  border:1px solid #333;
   margin:20px;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  transform: rotate(90deg);
+}
+
+.picsWide{
+  width: 50%;
+  float: left;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.pics img{
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:2px solid #333;
 }
 
 .descrip {
@@ -190,6 +197,9 @@ li a {
   text-align: justify;
 }
 
+#mediaLinks img {
+  width:50%;
+}
 
 /* GENERIC */
 
