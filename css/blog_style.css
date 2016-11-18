@@ -1,0 +1,250 @@
+
+/* WHOLE PAGE */
+html,
+body {
+  font-family: Sans-Serif;
+  /*font-size: 18px;*/
+  font-size: 1.4vw;
+  background-color: #333;
+  height: 100%;
+  text-align: left;
+}
+#content {
+  background-color: #FFF;
+  width: 90%;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  margin-left: auto; 
+  margin-right: auto;
+  height: auto !important; 
+  min-height: 100%; 
+  position: relative;
+}
+
+/* logo AND LOGO */
+#logo {
+  width: 60%;
+  overflow: hidden;
+  margin:0 auto;
+}
+
+#logoT {
+  vertical-align:middle;
+  display: inline-block;
+}
+
+#logo img {
+  vertical-align:middle;
+  display: inline-block;
+  /*float: left;*/
+}
+
+#logo span {
+  display: inline-block;
+  vertical-align:middle;
+}
+
+#logoT h1 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  font-size: 36px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 26.4px;
+  margin: 1px;
+  padding: 1px;
+  /*vertical-align: middle;
+  display: inline-block;*/
+}
+
+#logoT h3 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  font-size: 20px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  line-height: 15.4px;
+  margin: 1px;
+  padding: 1px;
+  /*vertical-align:middle;
+  display: inline-block;*/
+}
+
+/* LINK BAR */
+#linkBar {
+  width: 80%;
+}
+
+#linkBar li {
+  display: inline; 
+}
+
+#linkBar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  height: 30px;
+  text-align: justify;
+}
+
+#linkBar ul li {width:20%;
+  list-style:none;
+  display:inline-block;
+  text-align:justify;
+}
+
+#linkBar li {
+  float: left;
+}
+
+#linkBar li a {
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 5px 2px;
+  text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+#linkBar li a:hover {
+  background-color: #333;
+  color: #FFF
+}
+
+/* BODY */
+h3 {
+  margin: 1px;
+  padding: 1px;
+}
+
+#article {
+  width: 60%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#article a {
+  color: #333
+}
+
+#article a:hover {
+  color: #111
+}
+
+#projects {
+  width: 90%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.pics{
+  width: 30%;
+  float: left;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.picsRight{
+  width: 40%;
+  float: right;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.picsWide{
+  width: 50%;
+  float: left;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.pics img{
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:2px solid #333;
+}
+
+.descrip {
+  margin-left: 40%;
+  width: 65%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* FOOTER */
+#footer {
+  width: 80%;
+  bottom: 0;
+}
+
+#mediaLinks {
+  width: 60%;
+
+}
+
+#mediaLinks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  text-align: justify;
+}
+
+#mediaLinks img {
+  width:50%;
+}
+
+#mediaLinks li {
+  display: inline; 
+}
+
+#mediaLinks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  text-align: justify;
+}
+
+#mediaLinks ul li {width:20%;
+  list-style:none;
+  display:inline-block;
+  text-align:justify;
+}
+
+#mediaLinks li {
+  float: left;
+}
+
+#mediaLinks li a {
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 5px 2px;
+  text-decoration: none;
+}
+
+/* GENERIC */
+
+span.clear { clear: left; display: block; }

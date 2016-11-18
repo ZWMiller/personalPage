@@ -1,0 +1,164 @@
+h2 {
+  text-align: left;
+}
+
+form {
+  background: -webkit-linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  background: -moz-linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  background: linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  /*margin: auto;*/
+  position: relative;
+  width: 419px;
+  height: 215px;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 24px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+  border: inset 1px solid #333;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+#info form {
+  background: -webkit-linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  background: -moz-linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  background: linear-gradient(bottom, #DDDDDD, #EEEEEE 175px);
+  /*margin: auto;*/
+  position: relative;
+  width: 895px;
+  height: 1450px;
+  font-family: Tahoma, Geneva, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  text-align: left;
+  line-height: 24px;
+  font-weight: bold;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #999;
+  border: inset 1px solid #333;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+#about form{
+  font-size: 18px;
+  font-style: normal;
+}
+
+#info #gameSim input{
+  width: 350px;
+  left: 0px;
+  font-weight: bold;
+}
+
+#banner img {
+    width:915px;
+    max-height:175px;
+    padding-left:10px;
+}
+
+#imageOut {
+ position:relative;
+}
+
+input {
+  width: 175px;
+  display: block;
+  border: 1px solid #999;
+  height: 25px;
+  -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+input[type=button] {
+  width: 200px;
+  position: relative;
+  left: 10px;
+  bottom: 10px;
+  background: #CCCCCC;
+  color: #0;
+  font-family: Tahoma, Geneva, sans-serif;
+  height: 30px;
+  border-radius: 5px;
+  border: 1p solid #999;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+}
+
+input[type=button]:hover {
+  background: #fff;
+  color: #000;
+}
+
+td {
+    padding:0 15px 0 15px;
+    vertical-align: top;
+    float: left;
+}
+
+p { padding-left: 15px; }
+
+#info {
+  width: 768px;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  background: #fff;
+  float: left;
+  margin-bottom: 10px;
+}
+
+#info p {
+  width: inherit;
+  background-color: inherit;
+}
+
+#info-nav {
+  margin: 0;
+  padding: 0;
+  padding-left: 17px;
+  width: 100%;
+  list-style: none;
+}
+
+
+#info-nav li {
+  background: ##C3C3C3;
+  border-bottom: 0;
+  padding: 5px 10px;
+  text-align: center;
+  margin: 0px;
+  background: #ccc;
+  float: left;
+  margin-right: 3px;
+}
+
+#info-nav li a {
+  color: #000;
+  text-decoration: none;
+  text-align: center;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+#info-nav li.current {
+  text-align: center;
+  background: #000;
+}
+
+#info-nav li.current a {
+  color: #FFFFFF;
+}
+
