@@ -1,0 +1,115 @@
+Zachariah W. Miller, Ph.D.
+(270) 317-2618
+zachariah.w.miller@gmail.com
+www.zwmiller.com
+
+————————————————————
+Research Experience
+————————————————————
+
+Postdoctoral Researcher (2015 - Present)
+University of Illinois at Chicago: Chicago, IL
+
+ - Member of the STAR Collaboration. Studied the formation of the Quark-Gluon Plasma (QGP) in heavy-ion collisions at the Relativistic Heavy Ion Collider at Brookhaven National Laboratory. Used heavy quarks as probes to study the properties of the QGP, focusing on leptonic decay channels of heavy flavor mesons. Also studied heavy flavor production in proton-proton and proton-gold collisions. 
+ - Member of the embedding team that produces simulations of particles within the detectors to understand the detector responses. Produce embedding requests for the collaboration at large. 
+ - Co-supervisor of undergraduate research students (2016). 
+ - Member of maintenance team for Intermediate Silicon Tracker detector (decommissioned 2016). 
+
+Research Assistant (2010 - 2015)
+University of Kentucky: Lexington, KY
+
+ - Researched and developed a prototype detector for detecting neutrons below 1 MeV. Used at Los Alamos National Laboratory to measure np-elastic cross-sections in a range of 500-1000 keV. 
+ - Measured 238-U cross-section above 100 MeV. This work used np-elastic scattering as its standard, allowing for further constraint on cross-section calculations in the higher energy regions. 
+ - Designed, constructed, and tested a second prototype detector made of multiple layers of one-meter-long plastic scintillator. This design was used to measure the low energy prompt neutron spectrum for 235-U fission (from 0.3 – 6 MeV). 
+ - Developed new data acquisition system, both for waveform digitizers and for FERA based readout using CAMAC. Wrote the majority of the software (Java) and helped develop the hardware. 
+
+————————————————————
+Teaching Experience
+————————————————————
+
+Adjunct Faculty – Astronomy 130 (2011)
+Eastern Kentucky University: Richmond, KY
+ - Taught introductory astronomy as an adjunct professor. The class covered the solar system as well as basic galactic theory. 
+
+Teaching Assistant – Physics 211, 213 (2009 - 2012)
+University of Kentucky: Lexington, KY 
+ - Taught both recitation and laboratory for algebra based survey courses in physics. Developed laboratory experiment for use by all entry level courses. 
+
+Teaching Assistant – Physics 131, 132 (2007 - 2009)
+Eastern Kentucky University: Richmond, KY 
+ - Worked as an aide in studio style algebra based physics courses ranging from kinematics through electromagnetic theory. 
+
+————————————————————
+Education
+————————————————————
+
+University of Kentucky 
+Ph.D. Nuclear Physics (2012 - 2015)
+Master of Science (2009 - 2012) Doctoral Dissertation: “A Measurement of the Prompt Fission Neutron Energy Spectrum for 235-U(n,f) and the Neutron-Induced Fission Cross Section for 238-U(n,f)” – Supervisor: Prof. Michael Kovash 
+
+Eastern Kentucky University 
+B.S. Physics (Cum Laude) (2005 - 2009)
+Minor: Mathematics Honors Thesis: “Variable Stars: An Analysis of Changing Luminosity” 
+
+————————————————————
+Awards
+————————————————————
+
+ - Outstanding Teaching Assistant Award, University of Kentucky (2011)
+ - Graduate Fellowship, University of Kentucky (2009 - 2010)
+
+—————————————————————
+Selected Publications
+—————————————————————
+
+ - “Response of BC-418 Plastic Scintillator to Low-Energy Protons”, B.H. Daub, V. Henzl, M.A. Kovash, J.L. Matthews, Z.W. Miller, K. Shoniyozov, H. Yang, Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment, Volume 701, 11 February 2013, Pages 171-175, ISSN 0168- 9002, http://dx.doi.org/10.1016/j.nima.2012.11.025 
+ - “Measurements of the Neutron-Proton and Neutron-Carbon Total Cross-Sections from 150 to 800 keV,” B. H. Daub, V. Henzl, M. A. Kovash, J. L. Matthews, Z. W. Miller, K. Shoniyozov, and H. Yang, PHYSICAL REVIEW C 87, 014005 (2013), 25 January 2013, http://link.aps.org/doi/10.1103/PhysRevC.87.014005 
+
+——————————————————————
+Conference Proceedings
+——————————————————————
+
+ - “Measurements of Neutron-Induced Fission”, Stewardship Science Academic Alliances Symposium, Bethesda, Md., February 19-20, 2014. 
+ - “Detecting sub-MeV Neutrons in Solid Plastic Scintillator with Gamma-Ray Discrimination.” ANIMMA 2011 (Advancements in Nuclear Instrumentation). Ghent, Belgium. June 6-9, 2011. 
+ - “Measurements of Low Energy Neutrons from Neutron-Induced Fission” Stewardship Science Academic Alliances Symposium. Washington D.C. February 15-17, 2011. 
+
+————————————————————
+Invited Seminars
+————————————————————
+
+ - “Neutron-Induced Fission in Uranium Isotopes.” University of Illinois at Chicago. Chicago, IL. December 2, 2014 
+ - “Neutron-Induced Fission Cross Sections for Uranium-238 Above 100 MeV.” LANSCE Nuclear Science Group, Los Alamos National Laboratory. Los Alamos, NM. December 11, 2013 
+
+————————————————————
+Contributed Talks
+————————————————————
+
+ - “Bottom Production at RHIC with the STAR Experiment.” Santa Fe Jets and Heavy Flavor Workshop. Santa Fe, NM. January 11-13, 2016 
+ - “Neutron-Induced Fission Cross Sections for Uranium-238 Above 100 MeV.” American Physical Society's Division of Nuclear Physics Meeting. Newport News, VA. October 23-26, 2013 
+
+————————————————————
+Relevant Skills
+————————————————————
+
+ - Fluent with C++.
+ - Experience with Python, R, Shell Scripting, Java, LaTeX, and JavaScript. 
+ - Mathematical Modeling, Numerical Computing, Monte Carlo Simulations 
+ - Well-versed in CERN's ROOT program as well as GEANT4. 
+ - Experienced with data acquisition design and programming. 
+
+————————————————————
+Membership
+————————————————————
+
+ - Society of Physics Students
+ - American Physical Society 
+ - American Association of Physics Teachers 
+ - Board Member, Northwest Territory Alliance (Educational Non-Profit)
+
+————————————————————
+References
+————————————————————
+
+ - Zhenyu Ye, Postdoctoral Supervisor, 312-996-2198, yezhenyu@uic.edu 
+ - Michael Kovash, Dissertation Advisor, 859-257-1150, kovash@pa.uky.edu 
+ - Renee Fatemi, Dissertation Committee Member, 859-257-2664, rfatemi@pa.uky.edu  
