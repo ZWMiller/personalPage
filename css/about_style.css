@@ -37,6 +37,7 @@ body {
 #logo img {
   vertical-align:middle;
   display: inline-block;
+  width:30%;
   /*float: left;*/
 }
 
@@ -47,11 +48,12 @@ body {
 
 #logoT h1 {
   font-family: Copperplate, "Copperplate Gothic Light", fantasy;
-  font-size: 36px;
+  //font-size: 36px;
+  font-size: 2.0em;
   font-style: normal;
   font-variant: normal;
   font-weight: 500;
-  line-height: 26.4px;
+  //line-height: 26.4px;
   margin: 1px;
   padding: 1px;
   /*vertical-align: middle;
@@ -60,11 +62,12 @@ body {
 
 #logoT h3 {
   font-family: Copperplate, "Copperplate Gothic Light", fantasy;
-  font-size: 20px;
+  //font-size: 20px;
+  font-size: 1.2em;
   font-style: normal;
   font-variant: normal;
   font-weight: 500;
-  line-height: 15.4px;
+  //line-height: 15.4px;
   margin: 1px;
   padding: 1px;
   /*vertical-align:middle;
@@ -87,7 +90,7 @@ ul {
   overflow: hidden;
   background-color: #FFF;
   width: 80%;
-  height: 30px;
+ // height: 30px;
   text-align: justify;
 }
 
