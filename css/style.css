@@ -188,6 +188,10 @@ li a {
   width:50%;
 }
 
+a {
+  color: #000;
+}
+
 /* GENERIC */
 
 span.clear { clear: left; display: block; }

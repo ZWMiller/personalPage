@@ -5,7 +5,7 @@
     <!-- For viewing the page on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>
-      Zachariah W Miller - Data Analysis, Physics, Software
+      Zachariah W Miller - Data Science, Physics, Software
     </title>
     <link rel="stylesheet" href="../css/about_style.css">
     <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
@@ -17,7 +17,7 @@
           <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
           <div id="logoT">
             <h1>Zachariah W Miller, PhD</h1>
-            <h3>Data Analysis &middot; Physics &middot; Software</h3>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
             <h3>zachariah.w.miller@gmail.com</h3>
           </div>
         </div>
@@ -48,10 +48,27 @@
           <h3>Which Word is the Most Biblical?</h3>
           <small>November 16, 2016 - Python and Webcrawling</small>
           <br><br>
-          My friend, Kyle, is writing a novel and I've been helping him out by reading the various drafts as he works on them and passing along feedback. In one of the recent drafts, I noted that the draft seemed to be very heavy on names for minor characters that don't play much of a role in the story, which made the draft seem very dense and tough to keep up with. As he and I discussed it further, we brainstormed an idea for a tool that could go through the text and highlight certain words that a user inputs, so it's easy to scroll through and see how often a word appears. After a few beers, this idea snowballed into a tool that would find the most common words in the text and highlight them. With that in mind, I ran off to my machine and began stitching together the code that makes up the heart of this project. It turns out that this project is quite flexible, if designed right, so besides asking "can I find what are the most common words in Kyle's novel," I also found myself curious about other text inputs. What's the most common word in the Bible? What's the most common word used by Donald Trump on Twitter? These are questions that can all be answered by the modules I've designed.<br>
+          My friend, Kyle, is writing a novel and I've been helping him out by reading drafts and passing along feedback. In one of the recent drafts, I noted that the draft seemed to be very heavy on names for minor characters, which made the draft seem very dense and tough to keep up with. As he and I discussed it further, we brainstormed an idea for a tool that could go through the text and highlight certain words, so it's easy to scroll through and see how often a word appears. After a few beers, this idea snowballed into a tool that would find the most common words in the text and highlight them. With that in mind, I ran off to my machine and began stitching together the code that makes up the heart of this project. It turns out that the code is quite flexible, so besides asking "what are the most common words in Kyle's novel," I could also ask the same thing of any other source of text. What's the most common word in the Bible? What's the most common word used by Donald Trump on Twitter? These are questions that can all be answered by the modules I've designed.<br>
           <h4>Getting the Text</h4>
           A problem common to every person who's ever worked on data analysis: how do I get my data? In this case, it could have been simple enough to ask Kyle for text files, but if I wanted this to be more flexible, I needed to expand the methods. So instead, I built my first webcrawler. Kyle's novel is hosted on his website, so I used a webcrawler with the <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup</a> library to extract the text straight out of his website. This same webcrawler was also used to get the full text of the King James Version of the Bible that is freely available at the <a href="https://www.gutenberg.org/">Gutenberg Project</a>.<br><br>
-          I also thought it would be fun to be able to search Twitter and extract the most common words related to either a) a user or b) a search item. So I connected to the Twitter API using <a href="https://twython.readthedocs.io/en/latest/">Twython</a> and implemented a search function into the program to extract the text from the tweets pulled by the API during the search.<br>
+          I also thought it would be fun to be able to search Twitter and extract the most common words related to either a) a user or b) a search item. So I connected to the Twitter API using <a href="https://twython.readthedocs.io/en/latest/">Twython</a> and implemented a search function into the program to extract the text from the tweets pulled by the API during the search.<br><br>
+          In practice, this is the only part of the code that changes for each different application. The user must get a text source and feed it to the rest of the code chain. Once the source is found the text is split into individual words, punctuation is removed, and capital letters are de-cased so that both "With" and "with" are counted as the same word. A second copy of the words is also stored as a string, keeping the punctuation and capitalization in-tact for the purposes of reconstructing the text with words highlighted later. An example of the implementation is shown below.<br><br>
+          <div class="code">
+            from bs4 import BeautifulSoup<br>
+            import requests<br>
+            import wordCountMaker as wcm <font color=blue>#This is the module contains project-specific functions</font><br>
+            <br>
+            html = requests.get(url).text <font color=blue>#Get all html text from url</font><br>
+            soup = BeautifulSoup(html, 'html5lib') <font color=blue>#Use BS4 to break apart tags</font><br>
+            for x in soup.findAll("p"): <font color=blue>#Get all text in any &lt;p&gt; tag</font><br>
+            &nbsp;&nbsp;&nbsp;if wcm.is_title_text(x.text): <font color=blue>#Remove titles from text block</font><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue<br>
+            &nbsp;&nbsp;&nbsp;for word in x.text.strip().split(): <font color=blue>#Split into words</font><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unfiltered_wordlist.append(word) <font color=blue>#Keep raw words for later</font><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if wcm.filter_common_words(word.lower()): <font color=blue>#Function to remove common words</font><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wordlist.append(wcm.clean_word_for_count(word)) <font color=blue>#Clean the words and store</font><br>
+          </div>
           <h4>Making the Word Count/Plot</h4>
           From there, it was a fairly simple matter to just create a dictionary that counts the number of times a word appears, after splitting the text into individual words and removing any uppercase specific splitting. However, this naive implementation returned something I should have expected... the most common words are always "a, an, the, I, for, ..." It turns out that a filter is pretty necessary to separate meaningful words from chaf. So I wrote a function that filters out the most common words:<br><br>
           <div class="code">
@@ -62,17 +79,17 @@
            &nbsp;&nbsp;&nbsp;else:<br>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return False<br>
           </div><br>
-          After filtering these common words, I had a nice dictionary that includes every word in the text, as well as the number of times it appears. To help visualize this, I prepared this dictionary to be plotted as a bar plot and then plotted the most common 60 words, colorizing the words based on their frequency.<br> 
+          After filtering these common words, I had a nice dictionary that includes every word in the text, as well as the number of times it appears. To help visualize this, I prepared this dictionary to be plotted as a bar plot and then plotted the 60 most common words, colorizing the words based on their frequency.<br> 
           <div style="width:70%; margin:0 auto"><center><img src="images/toaesWordCountPlot.png" class="picsWide" alt="Word Counts from Kyle's Novel"></center></div>
           <h4>Making a Webpage</h4>
-          The ultimate goal of this was to find the common words and then reprint the text with the common words highlighted. One of the simplest ways to do that is to make a HTML page that contains the text, applying the correct colorization and highlighting tags on a word-by-word basis. This makes for a large HTML file, but it actually works quite well. An example is shown below using the text from some Donald Trump tweets (all politics aside, I chose him because he was in the news at the time for tweeting).
+          The ultimate goal of this was to find the common words and then reprint the text with the common words highlighted. One of the simplest ways to do that is to make a HTML page that contains the text, applying the correct colorization and highlighting tags on a word-by-word basis. This is why we saved the "unfiltered words" in the example above, so that we can use them again with their original formatting. This makes for a large HTML file, but it actually works quite well. An example is shown below using the text from some Donald Trump tweets <i>(all politics aside, I chose him because he was in the news at the time for tweeting)</i>.
           <div style="width:70%; margin:0 auto"><center><img src="images/realDonaldTrump.png" class="picsWide" alt="Word Counts from Trump Twitter"></center></div>
-          <img src="images/wordCountHTML.png" class="picsWide" alt="Word Highlighting Example">
-          The color scheme is shared between the plot and the page. So we can first quickly scan through the plot and see what the common words are, then scan through the text and see where all these words are.
+          <a href="colorizedTrump.html"><img src="images/wordCountHTML.png" class="picsWide" alt="Word Highlighting Example"></a>
+          The color scheme is shared between the plot and the page. So we can first quickly scan through the plot and see what the common words are, then scan through the text and see where all these words are. The full example page can be found here: <a href="colorizedTrump.html">Colorized Trump Tweets</a>.
           <h4>So What is the Most Common Biblical Word?</h4>
           For the KJV version of the bible hosted on Gutenberg's website, the most common word is "in." That may seem a cheap one, but I didn't filter it because it's often necessary in a sentence. For example the previous sentence would read, "...it's often necessary a sentence," and I tried not to filter words that could be necessary. If we want to take the first "non-cheap" words, "he" and "shall" are the next two in line. The most common "bible-y" word is "lord," which comes in as the 7th most common word. The full plot is shown below.
           <div style="width:70%; margin:0 auto"><center><img src="images/bibleWordCountPlot.png" class="picsWide" alt="Word Counts from KJV Bible"></center></div>
-          This tool has lots of fun little applications. I've since tried searching Twitter for more controversial topics and seeing what the most commonly associated words are and whether they can tell us what the Twitterverse thinks on a subject at present (e.g. a search for "#BlackLivesMatter" yields a result where 38th most common word is "#alllivesmatter"). It's fun to play with, and the web-crawler interface is simple enough that it can be easily adapted to pretty much any case. I'm also pleased with the flexibility and modularity of the code, as everything stays pretty much the same after the text is retrieved, so a user only needs to update the "text-get" portion of the code and they quickly have access to a whole new world of possible insights.<br><br>
+          This tool has lots of fun little applications. I've since tried searching Twitter for more controversial topics and seeing what the most commonly associated words are and whether they can tell us what the Twitterverse thinks on a subject at present (e.g. a search for "#BlackLivesMatter" yields a result where the 38th most common word is "#alllivesmatter"). It's fun to play with, and the web-crawler interface is simple enough that it can be easily adapted to pretty much any case. I'm pleased with the flexibility and modularity of the code, as everything stays pretty much the same after the text is retrieved, so a user only needs to update the "text-get" portion of the code and they quickly have access to a whole new world of possible insights.<br><br>
           <center><h4>Code available <a href="https://github.com/zwmiller/LearningPython/wordCounter">here</a> and <a href="https://github.com/zwmiller/LearningPython/twitterCounter">here.</a></h4></center>
         </div>
         <span class="clear"></span>

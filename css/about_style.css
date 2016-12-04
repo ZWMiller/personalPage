@@ -200,6 +200,7 @@ th {
 .code {
   width=60%;
   font-family:"Courier New",monospace;
+  font-size: 1.2vw;
   background-color:#EEE;
   margin: 0 auto;
 }
