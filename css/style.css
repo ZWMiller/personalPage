@@ -3,11 +3,27 @@
 html,
 body {
   font-family: Sans-Serif;
-  font-size: 1.4vw;
+  font-size: 16px;
   background-color: #333;
   height: 100%;
   text-align: left;
 }
+@media(min-width:60em){html{font-size: 100%}}
+
+@media(max-width:480px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 70%;
+  }
+}
+
+@media(max-width:375px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 8px;
+  }
+}
+
 #content {
   background-color: #FFF;
   width: 90%;
@@ -152,6 +168,18 @@ li a {
   border:2px solid #333;
   width: 90%;
   margin: auto;
+}
+
+
+@media only screen and (max-device-width: 480px){
+  .pics img{
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    border:1px solid #333;
+    width: 90%;
+    margin: auto;
+  }
 }
 
 .descrip {

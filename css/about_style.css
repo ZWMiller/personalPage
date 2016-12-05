@@ -3,11 +3,28 @@
 html,
 body {
   font-family: Sans-Serif;
-  font-size: 1.4vw;
+  font-size: 16px;
   background-color: #333;
   height: 100%;
   text-align: left;
 }
+
+@media(min-width:60em){html{font-size: 100%}}
+
+@media(max-width:480px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 70%;
+  }
+}
+
+@media(max-width:375px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 60%;
+  }
+}
+
 #content {
   background-color: #FFF;
   width: 90%;
