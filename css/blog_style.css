@@ -21,7 +21,7 @@ body {
 @media(max-width:375px){
   /* styles for mobile browsers smaller than 480px; (iPhone) */
   html,body{
-    font-size: 8px;
+    font-size: 60%;
   }
 }
 
@@ -153,6 +153,34 @@ h3 {
 #article a:hover {
   color: #111
 }
+
+#blogList {
+  width: 60%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#inLineList {
+  width: 100%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#inLineList ul {
+  list-style-type: disc;
+}
+
+#inLineList li {
+  clear: left;
+  clear: inline;
+}
+
+#inLineList ul li{
+  width: 100%;
+  clear: inline-block;
+  margin:0 auto;
+}
+
 
 #projects {
   width: 90%;

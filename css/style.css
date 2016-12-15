@@ -20,7 +20,7 @@ body {
 @media(max-width:375px){
   /* styles for mobile browsers smaller than 480px; (iPhone) */
   html,body{
-    font-size: 8px;
+    font-size: 60%;
   }
 }
 
