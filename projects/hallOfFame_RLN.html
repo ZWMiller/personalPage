@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Zachariah W Miller - Data Science, Physics, Software
+    </title>
+    <link rel="stylesheet" href="../css/about_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Will Joey Votto Make the Hall of Fame?</h3>
+          <small>November 21, 2016 - Python and SQL</small>
+          <br><br>
+          There are many things I love about baseball, but perhaps the part I find most beautiful is the ability to sum the current situation of the game in one sentence. "We're in the top of the 9th, 3 to 2 for the home team, 2 balls and no strikes, man on first." That one line tells you everything you need to know about the game, assuming you know the lingo. This is a consequence of an extremely "state" driven game. Taking it a step further, if you break the game into independent chunks (inning, score, runners, balls-strikes), you can discern the current state of the entire game. This takes us back to my absolute favorite part of baseball: if everything is a state, then every state can be given statistics. Want to know how many of a particular players hits are doubles? We have the stats. Want to know how often a player tries to steal a base and gets caught? We have the stats. You get the idea.<br><br>
+          In present MLB culture, the "stat heads" are overtaking the "old-guard," those that believe statistics are hokum. Data is revolutionizing the game as teams use all of the available data to make predictions on where a player is most likely to hit the ball or what type of pitch he's least likely to hit, and then act on it. Perhaps unsurprisingly, this is working. Just ask the 2016 Chicago Cubs.<br><br>
+          This battle between stat heads and the old-guard is perhaps most clear when people talk about the Hall of Fame (HOF). Stat heads are pointing to players like Joey Votto, my favorite player, and saying things like: "he contributes more increase in winning percentage to his team than any other player in the NL." That's a pretty dense statement with a lot of calculations and assumptions hidden behind it. For example, how much is getting on base worth towards winning the game? How much more is a double worth than a single or a walk? The finer details of these calculations are a discussion for another time; but it comes down to this: many of the anti-stat writers and announcers are pushing back on the idea that Joey Votto belongs in the HOF, while the stat-people are saying he is a clear HOFer.<br><br>
+          So I thought, <i>why not see what the data actually says? We have this beautiful game, with tons of data recorded for every player. We also have a list of who has made the hall of fame. I bet I can merge these two together and predict whether Joey Votto has a shot at the hall of fame based on comparing his career statistics with other HOFers.</i> Better yet, I can make predictions on who, among active or recently retired players, is likely to get the nod. So let's talk techniques. The first thing to do was get some data.<br><br>
+          Wonderfully enough, it's not too hard to find a database. After some searching about the web, I found a database <a href="http://www.seanlahman.com/baseball-archive/statistics/">here</a>. Inside are the statistics for every person who's ever had an at-bat in a major league game since 1871. So let's have a look at the data:
+          <img src="images/mlbData.png" class="picsWide" alt="Demo of Data Structure">
+          There are a few things to unpack here. First, everyone is identified by an ID code word instead of their name. Second, we see that most of the stats are the typical stats but they're broken down by player and season. Third, we see that there are some blanks in the data, especially in the 'ye olde player' section where the information just wasn't recorded at the time.<br><br>
+          The first thing to do is map the data and have a look for problems within the data set. Shown below, I've plotted the correlations between the different types of data with the blank spots removed for visualization purposes. This serves two purposes: 1) Outliers will show up along each axis and 2) It allows me to identify any information that is one-to-one correlated (redundant information) such that in the future I'm not double counting a type of statistic. The code I wrote actually produces almost 300 plots showing the correlations between each statistics with each other statistic, a few interesting examples are shown here.
+          <img src="images/mlbDataCorrelations.png" class="picsWide" alt="Demo of Data Correlations">
+          On the top left we see data that shows little correlation. Someone with 100 AB in a season is almost as likely to have 5 IBB (intentional walks) as someone with 400 AB in a season. On the top right we see data that is extremely correlated, that's because these are two numbers that measure how many times a player comes to the plate to face a pitcher, the only difference is whether to include certain types of rare-ish events in the counting (BB, HBP, etc). So, we don't really need to include both of these features in our analysis. The bottom left chart is perhaps the most interesting plot to consider. There is a very loose correlation between at-bats and batting average, with batting average being one of the most commonly used metrics for discussing a baseball players greatness. However, that correlation doesn't really start until over 100 ABs. This is because baseball is a game of failure. The greatest hitters of all time still fail 70% of the time. That means a large sample is necessary to truly find out how well a player plays. With only 100 ABs, we still can't tell much about a hitter in a given season. For this analysis, we are going to place a requirement that more than 100 ABs occur in a season for that season to be considered. Finally, on the bottom right I've drawn a plot that shows what is called a double banded structure. It's a unique looking plot that shows us there isn't much of a correlation between OBP (on-base percentage) and SO (strike outs), but there does seem to be two types of players, those with low OBP and a relatively low number of strike outs, and "the rest." After checking into it, the lower band tends to be players with only a few ABs, and will be removed by our "100 AB" requirement.<br><br>
+          Now let's jump to the interesting part - machine learning. For each player I created a data structure that holds all of his stats, separated by seasons, and whether or not he has made the hall of fame. I removed pitchers from the data, because they make it to the hall of fame for their arm and not their bats and would skew the results. I then separated the players into three groups: "Eligible and retired long enough to have been considered for the hall of fame", "Not yet retired or not retired long enough to be eligible", and "ineligible" based on the Hall of Fame requirements for entry. From this, I took the first group and split it further, placing 70% into a "training" data set for my machine learning algorithms and 30% into a "testing" group. The training group helps teach the model what types of stats are correlated with someone making the HOF. For instance, if the model was trained with only Babe Ruth and Joey Cora, it might think that hitting for power is the key to the HOF since Mr. Ruth is in and Mr. Cora is not. The key is to feed it as many test samples as possible so that it can find overall patterns in the data that can be used to predict whether a player makes it or not. The testing group will be used to evaluate how well my algorithm can do at determining if a player actually makes the hall of fame. After testing the algorithm I can apply it to the group of "modern players" that we want to make predictions about.<br><br>
+          This is simple enough in theory, however there are some subtleties I'd like to discuss. First, only ~2% of players that are eligible make the hall of fame, so this data is dominated by "no" answers to the question "did he make the hall of fame?" That means the algorithm would be ~98% accurate if it just always said no. It also means we need to be careful about our training data. The predictions are going to vary greatly if the only person in the training data that makes the hall of fame is Babe Ruth vs Barry Larkin (famous for power hitting vs famous for consistent hitting with less power), which is a form of systematic bias. To overcome this, I've used a bootstrap method. A bootstrap method is a technique of randomly selecting data many times from a single large source of data to form many smaller data sets. I've combined this with a method of forcing 70% of "yeses" and 70% of "noes" to go into the training data individually instead of just 70% of all players. This means my training data will always have yes's and no's to train on. For the bootstrap method, I've implemented a way of sampling the data to build the training set thousands of times with different players used for training and testing. Then, I calculated the probability of making the hall of fame for each modern player based on all of these samples. Averaging over many different training sets removes a systematic bias implicit to choosing a subset of players to train the data.<br><br>
+          With just these assumptions, we can apply various machine learning algorithms and look at the probability of each modern player making the HOF. For each version of the bootstrap, we can plot that probability. Organized from low-to-high probability, that gives a plot like this:
+          <div style="width:70%; margin:0 auto"><center><img src="images/ProbabilityvsNumber.png" class="picsWide" alt="Hall of Fame Probability"></center></div>
+          This plot is excellent for many reasons. First, it shows that our method does have discriminatory power. The vast majority of players have a less than 20% chance, and the group of players that do make it are fairly concentrated in the one peak. It also shows us that using the default &gt;50% = HOF may not be the best method since the data is tightly grouped, with the majority of players sitting well below 50% chance. Instead, we can use an optimization method with the "test" data that we separated out from the training data earlier. If we apply a shifiting probability threshold to make the decision of yes/no hall of fame, we can slide that threshold around on each version of the data to maximize the ability of the model to the correctly identify HOFers and reject others. With this method implemented, the machine learning model's accuracy is optimized on a "per training data" level. On average, the optimal threshold for accurate results is around 42% and gives an average "truth" rate of ~93% with the training data.<br><br>
+          Another thing to consider in the model is whether we want to look at accrued stats or rate of accrual. In my first model, I naively just summed up each players stats and tried to make a prediction. However, that heavily biases the result against players that have only been in the league a few years. It's simply not feasible that a player with only 5 years in the league will have the accrued stats of a HOFer with 12 years in the league. So, I switched to a model which accounts for the rate of accrual and calculates each players hits/season, walks/season, etc. Then I re-trained the model.<br><br>
+          (Warning: Technobabble incoming) Finally, we need to consider which model to use. For all models, it's best to regularize the data by forcing the mean value for each stat type is 0 and the standard deviation is 1. This regularization is applied to the data for all models, in order to obey the "rules" of the models. Then I tried many different models: <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a>, <a href="https://en.wikipedia.org/wiki/Decision_tree">decision trees</a>, <a href="https://en.wikipedia.org/wiki/Gradient_boosting">boosted decision trees</a>, and <a href="https://en.wikipedia.org/wiki/Random_forest">the random forest</a>. I found the random forest to give the most accurate results in the testing data out of these models, so the results shown here are from that model. Anyone who made the HOF in at least one iteration of the model is noted here.<br><br>
+          <table>
+            <tr><th>First Name</th><th>Last Name</th><th>HOF Probability</th></tr>
+              <tr><td>Ichiro</td><td>Suzuki</td><td>1.000</td></tr>
+              <tr><td>Derek</td><td>Jeter</td><td>1.000</td></tr>
+              <tr><td>Robinson</td><td>Cano</td><td>0.997</td></tr>
+              <tr><td>Michael</td><td>Young</td><td>0.995</td></tr>
+              <tr><td>Vladimir</td><td>Guerrero</td><td>0.993</td></tr>
+              <tr><td>Todd</td><td>Helton</td><td>0.983</td></tr>
+              <tr><td>Chipper</td><td>Jones</td><td>0.982</td></tr>
+              <tr><td>Miguel</td><td>Cabrera</td><td>0.979</td></tr>
+              <tr><td>Nick</td><td>Markakis</td><td>0.974</td></tr>
+              <tr><td>Albert</td><td>Pujols</td><td>0.965</td></tr>
+              <tr><td>Elvis</td><td>Andrus</td><td>0.951</td></tr>
+              <tr><td>Jimmy</td><td>Rollins</td><td>0.949</td></tr>
+              <tr><td>Joey</td><td>Votto</td><td>0.935</td></tr>
+              <tr><td>Andrew</td><td>McCutchen</td><td>0.929</td></tr>
+              <tr><td>Matt</td><td>Holliday</td><td>0.924</td></tr>
+              <tr><td>Ryan</td><td>Braun</td><td>0.922</td></tr>
+              <tr><td>Adam</td><td>Jones</td><td>0.893</td></tr>
+              <tr><td>Dustin</td><td>Pedroia</td><td>0.868</td></tr>
+              <tr><td>Magglio</td><td>Ordonez</td><td>0.848</td></tr>
+              <tr><td>Ian</td><td>Kinsler</td><td>0.831</td></tr>
+              <tr><td>Matt</td><td>Carpenter</td><td>0.811</td></tr>
+              <tr><td>Adrian</td><td>Gonzalez</td><td>0.802</td></tr>
+              <tr><td>Mike</td><td>Trout</td><td>0.785</td></tr>
+              <tr><td>Lance</td><td>Berkman</td><td>0.759</td></tr>
+              <tr><td>David</td><td>Ortiz</td><td>0.714</td></tr>
+              <tr><td>Alex</td><td>Rodriguez</td><td>0.696</td></tr>
+              <tr><td>Ryan</td><td>Howard</td><td>0.689</td></tr>
+              <tr><td>Joe</td><td>Mauer</td><td>0.659</td></tr>
+              <tr><td>Eric</td><td>Hosmer</td><td>0.649</td></tr>
+              <tr><td>Prince</td><td>Fielder</td><td>0.618</td></tr>
+              <tr><td>Carlos</td><td>Lee</td><td>0.606</td></tr>
+              <tr><td>Brandon</td><td>Phillips</td><td>0.604</td></tr>
+              <tr><td>Billy</td><td>Butler</td><td>0.603</td></tr>
+              <tr><td>Freddie</td><td>Freeman</td><td>0.597</td></tr>
+              <tr><td>Johnny</td><td>Damon</td><td>0.572</td></tr>
+              <tr><td>Starlin</td><td>Castro</td><td>0.54</td></tr>
+              <tr><td>Adam</td><td>Dunn</td><td>0.511</td></tr>
+              <tr><td>Evan</td><td>Longoria</td><td>0.482</td></tr>
+              <tr><td>Adrian</td><td>Beltre</td><td>0.48</td></tr>
+              <tr><td>Josh</td><td>Donaldson</td><td>0.477</td></tr>
+              <tr><td>Ian</td><td>Desmond</td><td>0.468</td></tr>
+              <tr><td>Alexei</td><td>Ramirez</td><td>0.42</td></tr>
+              <tr><td>Paul</td><td>Goldschmidt</td><td>0.351</td></tr>
+              <tr><td>Jim</td><td>Thome</td><td>0.341</td></tr>
+              <tr><td>Mark</td><td>Teixeira</td><td>0.33</td></tr>
+              <tr><td>Miguel</td><td>Tejada</td><td>0.317</td></tr>
+              <tr><td>Juan</td><td>Pierre</td><td>0.312</td></tr>
+              <tr><td>Buster</td><td>Posey</td><td>0.288</td></tr>
+              <tr><td>Curtis</td><td>Granderson</td><td>0.262</td></tr>
+              <tr><td>Bobby</td><td>Abreu</td><td>0.23</td></tr>
+              <tr><td>Giancarlo</td><td>Stanton</td><td>0.167</td></tr>
+              <tr><td>Jay</td><td>Bruce</td><td>0.163</td></tr>
+              <tr><td>Jose</td><td>Altuve</td><td>0.161</td></tr>
+              <tr><td>Jose</td><td>Bautista</td><td>0.159</td></tr>
+              <tr><td>David</td><td>Wright</td><td>0.142</td></tr>
+              <tr><td>Jason</td><td>Giambi</td><td>0.135</td></tr>
+              <tr><td>Paul</td><td>Konerko</td><td>0.126</td></tr>
+              <tr><td>Torii</td><td>Hunter</td><td>0.121</td></tr>
+              <tr><td>Nolan</td><td>Arenado</td><td>0.101</td></tr>
+              <tr><td>Alfonso</td><td>Soriano</td><td>0.072</td></tr>
+              <tr><td>Vernon</td><td>Wells</td><td>0.065</td></tr>
+              <tr><td>Victor</td><td>Martinez</td><td>0.057</td></tr>
+              <tr><td>Hanley</td><td>Ramirez</td><td>0.048</td></tr>
+              <tr><td>Bryce</td><td>Harper</td><td>0.045</td></tr>
+              <tr><td>Brian</td><td>Dozier</td><td>0.045</td></tr>
+              <tr><td>Dan</td><td>Uggla</td><td>0.036</td></tr>
+              <tr><td>Pat</td><td>Burrell</td><td>0.024</td></tr>
+              <tr><td>Carlos</td><td>Pena</td><td>0.023</td></tr>
+              <tr><td>Edgar</td><td>Renteria</td><td>0.018</td></tr>
+              <tr><td>Chris</td><td>Carter</td><td>0.011</td></tr>
+              <tr><td>Jose</td><td>Reyes</td><td>0.01</td></tr>
+              <tr><td>Hideki</td><td>Matsui</td><td>0.007</td></tr>
+              <tr><td>Chris</td><td>Davis</td><td>0.006</td></tr>
+              <tr><td>Justin</td><td>Morneau</td><td>0.006</td></tr>
+              <tr><td>Mark</td><td>Trumbo</td><td>0.006</td></tr>
+              <tr><td>Carlos</td><td>Beltran</td><td>0.006</td></tr>
+              <tr><td>Anthony</td><td>Rizzo</td><td>0.006</td></tr>
+              <tr><td>Scott</td><td>Rolen</td><td>0.005</td></tr>
+              <tr><td>Edwin</td><td>Encarnacion</td><td>0.005</td></tr>
+              <tr><td>Aramis</td><td>Ramirez</td><td>0.004</td></tr>
+              <tr><td>Justin</td><td>Upton</td><td>0.004</td></tr>
+              <tr><td>Ryan</td><td>Zimmerman</td><td>0.004</td></tr>
+              <tr><td>Dexter</td><td>Fowler</td><td>0.004</td></tr>
+              <tr><td>Troy</td><td>Tulowitzki</td><td>0.004</td></tr>
+              <tr><td>Brian</td><td>McCann</td><td>0.003</td></tr>
+              <tr><td>Jason</td><td>Heyward</td><td>0.003</td></tr>
+              <tr><td>Travis</td><td>Hafner</td><td>0.002</td></tr>
+              <tr><td>Kevin</td><td>Youkilis</td><td>0.002</td></tr>
+              <tr><td>Jacoby</td><td>Ellsbury</td><td>0.002</td></tr>
+              <tr><td>A.J.</td><td>Pollock</td><td>0.001</td></tr>
+              <tr><td>Pablo</td><td>Sandoval</td><td>0.001</td></tr>
+              <tr><td>Carlos</td><td>Santana</td><td>0.001</td></tr>
+              <tr><td>Josh</td><td>Willingham</td><td>0.001</td></tr>
+              <tr><td>Mark</td><td>Reynolds</td><td>0.001</td></tr>
+              <tr><td>Eric</td><td>Chavez</td><td>0.001</td></tr>
+              <tr><td>Josh</td><td>Hamilton</td><td>0.001</td></tr>
+              <tr><td>Nelson</td><td>Cruz</td><td>0.001</td></tr>
+              <tr><td>Khris</td><td>Davis</td><td>0.001</td></tr>
+              <tr><td>Adam</td><td>LaRoche</td><td>0.001</td></tr>
+              <tr><td>Jack</td><td>Cust</td><td>0.001</td></tr>
+              <tr><td>Matt</td><td>Kemp</td><td>0.001</td></tr>
+              <tr><td>Andre</td><td>Ethier</td><td>0.001</td></tr>
+              <tr><td>Todd</td><td>Frazier</td><td>0.001</td></tr>
+              <tr><td>Chase</td><td>Utley</td><td>0.001</td></tr>
+          </table>
+          <br>
+          The first, and most positive, note is that most of these players are well-known to the casual baseball fan. The algorithm is making predictions that agree with most baseball experts. For instance, Chipper Jones is widely believed to be a shoo-in for the hall of fame, and our model gives him a 98% chance of making it. The same for Derek Jeter. It also says that most of the current excellent players who are on pace to be shoo-ins, like Miguel Cabrera and Albert Pujols, have high probabilities. Perhaps even more encouraging, is that I don't see many names on here that I don't recognize (me being slightly more baseball-rabid than the normal fan). Those I do see that I'm not particularly familiar with, have very low probabilities. So the model is also accurately removing players that have no name recognition for being great. "Oh hey, I recognize that guy" isn't a metric I'd put on my resume, but it's definitely reassuring that the model is being successful.<br><br>
+          I'd also like to spend a few sentences on the limitations of this model. There are many things this model doesn't account for, but the biggest ones I think are playing position, defense (as a whole), and home-field advantage. The position a player is known for makes a big difference in HOF selection. Someone who is an excellent shortstop will likely have a lower barrier for entrance in terms of hitting statistics than a first baseman (a position associated with power hitters). For instance, Buster Posey is one of the most heralded catchers of the past generation, yet only has a 30% chance according to this model. That's because this model doesn't know he's one of the best defensive catchers of all time. On the flip-side, Todd Helton is given a high probability of making the hall of fame, but the model doesn't know he played the majority of his games in Denver. The stadium in Denver is well-known for inflating offensive numbers because the atmosphere is much thinner at 5280 feet above sea-level. These are all secondary effects that need more study, but I think they are small effects and the results of this analysis can still be quite reliable and useful. Also of note, the model rewards players with spectacular years and punishes those with consistently above-average years, since it's based on the average rate of accrual. Johnny Damon had 17 years of above-average hitting, but only has a 57% chance to make the HOF in this model; whereas if I just model based on accrued statistics he has a 98% chance. It's vital to keep in mind that longevity isn't rewarded well in this model, and single explosive years are (if there aren't many other years to counter-balance).<br><br>
+          So what does the model have to say about my man Joey Votto? It gives him a 93% chance, which puts him on par with the Albert Pujolses of the world. Frankly, that shouldn't be surprising given the excellent career that Joey Votto has had so far, but it's nice to dig in to the data and see that it's not just watching him that says he's great; he actually is on pace to sit among the legends of the game.<br><br>
+          It's also really fun and interesting to look through some of the other names that show up.<br> 
+          <div id="inLineList">
+          <ul>
+            <li>Todd Helton is a great example of a forgotten great hitter and someone that I didn't expect to find on this list.</li>
+            <li>Ryan Howard is someone I had considered before doing this, but expected him not to make the list because he's generally seen as a massive failure. However, he's actually had an excellent career, despite never living up to the huge contract he was given.</li>
+            <li>Brandon Phillips is perhaps the most shocking result to me. He is clearly an excellent defensive player, but the model doesn't know about defense. His hitting has been above average for his whole career, but not far enough above average that I expected to see him on the list. Yet the model gives him a 60% chance.</li>
+            <li>Nick Markakis also surprised me. He doesn't get much fanfare besides often being noted as a good ball-player. However, a quick glance over his numbers shows he's had a nice career so far. He's perhaps being buoyed in these results by a particularly excellent second year though.</li>
+          </ul>
+          </div>
+          It will be fun over the next few years to see how predictive this list truly is. I want to be clear, I don't think this is a definitive or infallible list, but it does harness the power of machine learning to look through a large amount of data and find trends that human's might miss. I think it provides a good basis for discussion, which I welcome heartily. Any feedback or ideas for improvement would be received warmly, so please feel free to send them my way. To keep up with more of my silly analyses and ideas, please check out <a href="https://zwmiller.com/projects">www.zwmiller.com</a>.<br><br>
+          <center><h4>Code available <a href="https://github.com/zwmiller/LearningPython/MLBAnalysis">here.</a></h4></center>
+        </div>
+        <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zach-miller-aab09594"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2016 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Zachariah W Miller - Data Science, Physics, Software
+    </title>
+    <link rel="stylesheet" href="../css/about_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>zPlot - A ROOT Extension</h3>
+          <small>December 19, 2016 - C++</small>
+          <br><br>
+          In the world of particle physics, the standard C++ program we use to do almost all of our analyses and plotting is called <a href="https://root.cern.ch/">ROOT</a> and is produced and maintained by <a href="https://home.cern/">CERN</a>. I've heard many criticisms of this program over the years from both professionals and young researchers alike, but I've always found it to be a fairly nice program for analyses. It's a nice medium for implementing Tuple like objects, manipulating correlated data points, making histograms, and generally making legible and exacting plots. However, there are a few things that I've always found a bit annoying about ROOT and so I set out to make a little add-on class that could help clean up these annoyances and streamline my workflow.<br><br>
+          First let's list some of the annoyances:
+          <div id="inLineList">
+            <ul>
+              <li>Each histogram is an object that can be manipulated. This is lovely, but there is no built in "make it look nice" function, so I have to re-write that in each program.</li>
+              <li>Creating an output ROOT file with the histograms I want is difficult. I have to track down each histogram's variable name, make sure it's available in the "writeOutput" functions and then manually "histogram-&gt;Write()" for each.</li>
+              <li>Creating a PDF with a bunch of histograms as images suffers from the same output problem.</li>
+              <li>Creating multiple output files for different purposes requires tracking the histograms twice.</li>
+              <li>Saving a huge group of plots to a folder as image files is cumbersome and requires manually naming each file as it's saved, or coming up with some convention for using a built in histogram attribute for file naming.</li>
+            </ul>
+          </div>
+          With these annoyance in mind, I set out to write my own class that would essentially be a "plot management" class. I had a few goals for the class:
+          <div id="inLineList">
+            <ul>
+              <li>There should be a set of pre-made generic functions for making a plot look nice. It must still be possible to change the properties of the plot beyond that.</li>
+              <li>There should be a single function that I can call that will output all 'managed' plots to a PDF. The same for saving all plots as images in a folder.</li>
+              <li>It should be possible to have two different sets of managed plots (e.g. PlotsFromData and PlotsFromSimulation) in the same code.</li>
+              <li>The management cannot interfere with any of the valuable assets of histogram objects.</li>
+              <li>The managed histograms must still be iterable, like an array of histograms</li>
+            </ul>
+          </div>
+          To address these must-haves and 'fix' the workflow problems, I decided that I'd create a class that contains vectors for each type of plot (1D Histograms, 2D Histograms, XY-Scatter Plots, etc). I named this class "zPlot." New plots can be created by using a "plot constructor" within the zPlot architecture, and when they're created they are automatically added to the appropriate vector of plot objects. To aid in flexibility, I added two different constructors: one for creating a plot from scratch and one for adding an existing plot to the class. Each plot can be recalled from the vector by using it's associated object name. A quick example is shown below:<br><br>
+          <div class="code">
+            zPlot* zP = new zPlot("Analysis Test","testFile");<br>
+            zP-&gt;addTH1("test","Random Test;x;y",1000,-1,1);<br>
+            zP-&gt;fillTH1("test",gRandom-&gt;Gaus());<br>
+            zP-&gt;getTH1("test")-&gt;Fit("gaus");<br>
+            zP-&gt;plotTH1("test","can",1);<br>
+          </div><br>
+          In this example, we instantiate the zPlot class, then we add a "TH1" object, which is ROOT speak for "1-Dimensional Histogram." All the data in the constructor specifies information about the histogram: name, title, size, and axis range. Then we add data to the histogram using a random number generator (in ROOT speak, you "fill" the histogram with data). Then we "get" the histogram and attempt to fit a Gaussian model to it. All of this is entirely based on the name of the histogram (i.e. test), which is used as the gateway to access the correct histogram object. Already, we see that the main actions one needs to be able complete with a histogram are available in the class: we can create, fill, access after filling, and plot. The plot is shown below.
+          <center><img src="images/zPlot1dExample.png" class="picsCenter" alt="zPlot 1D Example"></center>
+          For the purposes of being iterative, we can use a nice built-in method from ROOT that is called "Form." It functions much like the sprintf() commands from C, where a string can be constructed from variables and then used. So in this example, let's pretend we want an array of histograms with names, efficiency_0, efficiency_1, efficiency_2. The code snippet below shows how to create them and then how to fill them.<br><br>
+          <div class="code">
+            for(int k=0; k&lt;3; k++){<br>
+            &nbsp;&nbsp;&nbsp;zP-&gt;addTH1(Form("efficiency_%i",k),"title;x;y",10,0,1);<br>
+            &nbsp;&nbsp;&nbsp;zP-&gt;fillTH1(Form("efficiency_%i",k),(float)k/10.);<br>
+            }<br>
+          </div><br>
+          Here we've used the "Form" method to select a different name each time, just like if we had used an array called efficiency[k]. However, these plots are still stored in the zPlot class and have access to all the goodies that class has. This is one of the cases where we sacrifice some extra-typing for the purposes of overall readability.<br><br>
+          There are two other main features that we want to have within the class: output control and shared functions for making the plots look nice. To make the plots look nice, I have a function called "pretty1Dhist" (or "pretty2Dhist" or ...). This function is automatically applied to all newly created histograms and applies some base manipulations to make the plots look prettier and more legible. A head-to-head comparison of a modified plot with a standard plot is shown below, the modified plot on top.    
+          <center><img src="images/zPlot1dCompare.png" class="picsCenter" alt="zPlot 1D Compare"></center>
+          With these modifications, we apply stronger markers to the central values, make the error bars a bit thicker, and enhance the text to make the plot look more professional. I've also added a color just to demonstrate that capability, though I personally prefer black points where possible. These manipulations can be templated by each user within the zPlot class, or the standard methods can be applied. It's designed to be flexible to the user's desires, with just a few simple manipulations as the default.<br><br>
+          Finally, we want to be able to quickly control the output to files. This is done with three functions: makePDF() and saveAllHists() for making image only outputs, and saveAllToFile() for saving in a ROOT accessible format. One of the details I've sort of skirted over is that ROOT doesn't directly draw all of it's plotting objects, each object must be placed on a "canvas" for drawing purposes. zPlot already has that functionality handled by also containing a vector for canvases using the same "name look-up" convention established for plot objects. makePDF grabs all of these canvases in the order they were added to the "canvas vector" and then adds them to a PDF, along with a cover page that has the title associated with the zPlot object. As such, if I created two zPlot objects in one analysis, one with zPlot* zP = new zPlot("From Data","from_data") and one with zPlot* zP2 = new zPlot("From Simulations", "from_simulation"), I could create two different PDFs. One would be called from_data.pdf and it's title page would say "From Data." The other would be called "from_simulaton.pdf" and the title page would say "From Simulation." Each one would only plot the canvases associated with the zPlot manager object. If I use "saveAllHistograms()" a folder will be created that is called "from_data" (or otherwise) and each plot associated with that object will be converted into a gif and saved in that folder. A sample PDF can be found <a href="images/samplezPlot.pdf">here</a> and the code used to make it (which is run inside the ROOT framework) is <a href="images/samplezPlot.txt">here</a> with comments and annotations. For saving plot objects to use in later codes, or to manipulate more later, saveAllToFile() creates a file in ".root" format that contains all of the created histograms and graphs with their current data and visual manipulations in tact.<br><br> 
+          A few more small details that didn't fit elsewhere. For those familiar with ROOT's architecture, the zPlot class can also handle all TGraph objects (those are the XY Scatter plot style). The class also has a few other helper functions that allow more advanced manipulation of plot objects, but in general the easiest way to handle more specific cases is to do getTH1("plotName")-&gt;AnyNormalFunctionThatAppliesToTH1Class() (or getTGraph("plotName")...). I've also added an option to all the drawing functions so that ROOT's normal plotting options can be easily passed to the plotting. Also, though not shown here, the zPlot class can also handle TH2 and TH3 objects (2D- and 3D-histograms respectively).<br><br>
+          Overall, I've found this methodology much more conducive to my workflow. Having all the canvases and graphs managed separately so that all I need to do is say, "plotTH1("name","canvas")" is much more readable than: canvas-&gt;cd(); plotVariable-&gt;Draw("options") and is easier to debug. I also find it much more pleasant to just have a single "makePDF()" line at the end than to have to go through and list every canvas and add it to the PDF (which takes 2 lines each time). The class offers a lot of small improvements in convenience and readability at the expense of occasionally typing a few more characters in a single line. I've used this class for many analysis prototyping projects, and am hoping to soon implement it into a larger analysis as well.<br><br> 
+          <center><h4>Code available <a href="https://github.com/zwmiller/zPlotClass">here.</a></h4></center>
+        </div>
+        <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zach-miller-aab09594"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2016 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+

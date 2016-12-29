@@ -13,7 +13,7 @@ Ph.D. in experimental nuclear physics, focusing on data-driven research with lar
 Skills and Expertise
 —————————————————————
 
- - Fluent with C++, Python, and UNIX - Experienced with shell scripting (BASH), LaTeX, Java, Javascript, C#, and R - Cluster Computing, Numerical Computing Methods, and Machine Learning experience - Previous work with Monte Carlo Simulation Methods and Mathematical Modeling - Skilled at translating complex topics into common English - Excellent communicator with experience with leading research teams and classrooms - Deadline oriented, works well as part of a team or independently - Published multiple times in leading peer-reviewed journals
+ - Fluent with C++, Python, and UNIX - Experienced with shell scripting (BASH), LaTeX, Java, Javascript, C#, and R - Cluster Computing, Numerical Computing Methods, and Machine Learning experience - Previous work with Monte Carlo Simulation Methods and Mathematical Modeling - Skilled at translating complex topics into common English - Excellent communicator with experience leading research teams and classrooms - Deadline oriented, works well as part of a team or independently - Published multiple times in leading peer-reviewed journals
 
 ————————————————————————
 Professional Experience

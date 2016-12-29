@@ -3,7 +3,7 @@
 html,
 body {
   font-family: Sans-Serif;
-  font-size: 16px;
+  font-size: 18px;
   background-color: #333;
   height: 100%;
   text-align: left;
@@ -15,6 +15,9 @@ body {
   /* styles for mobile browsers smaller than 480px; (iPhone) */
   html,body{
     font-size: 70%;
+  }
+  #eqn{
+    width: 75px;
   }
 }
 
@@ -176,6 +179,15 @@ h3 {
 
 .picsWide{
   width: 100%;
+  vertical-align: top;
+  border:1px solid #333;
+  margin:20px;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.picsCenter{
+  width: 70%;
   vertical-align: top;
   border:1px solid #333;
   margin:20px;
