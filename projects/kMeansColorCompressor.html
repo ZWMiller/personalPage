@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Zachariah W Miller - Data Science, Physics, Software
+    </title>
+    <link rel="stylesheet" href="../css/about_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>KMeans Color Compressor</h3>
+          <small>March 18, 2017 - Python, Scikit Learn</small>
+          <br><br>
+          Clustering is a really interesting topic within the world of machine learning. The goal of clustering is often to explore the data you have and to find out, "given all this data, what points within the data are similar to each other, such that they might be interpreted similarly." This project builds on that idea by looking at all the pixels within an image and saying, "okay, pixels X, Y, and Z all have colors that are all pretty similar, let's color them all exactly the same color."<br><br>
+          The machinery of this little project is a clustering algorithm called Kmeans. I've written an introduction to the Kmeans algorithm (and the idea of clustering) <a href="../blogs/kmeans.html"><big>here</big></a>. If you aren't familiar with Kmeans, please see that first, as I'll assume you understand the basics of the algorithm from here on.<br><br>
+          So let's talk about image manipulation. Images are really just a series of pixels stacked together, and each pixel has four defining pieces of information: how much red, how much blue, how much green, and how transparent. In order to work with all the pixel values, we simply need to read each pixel into a table storing each of these information bits. Python has an excllent library called <a href="https://python-pillow.org/">PILLOW</a>, or the Python Image (manipulation) Library, which does most of the heavy lifting for us: it reads through the pixels and returns a list of pixel values. Each pixel value is in the form [R, G, B, Tr]. Once we have this, that's where the fun can begin. First, I project all of the pixel values into a three-dimensional vector space with an axis for Redness, Blueness, and Greenness. So we essentially have a "color" space where we can now interact with our data. A demo of what that color space looks like is shown below:
+          <img src="images/colorSpace.jpg" class="picsWide" style="width: 50%; height: 50%; display:block; margin-left:auto; margin-right:auto; border:0px;" alt="Color Space Demo"><center><small>Courtesy: <a href="http://www.arcsoft.com/images/topics/darkroom/what-is-color-space-RGB.jpg">http://www.arcsoft.com/images/topics/darkroom/what-is-color-space-RGB.jpg</a></small></center><br><br>
+          Kmeans is space agnostic... all it needs to know is what space to work in and how we want to compute the distance between points. So by defining RGBness on a scale of 0-255 for each color (the default for pixels), we already have a calculable space. We simply need to setup our algorithm. A very simple version of Kmeans that I wrote can be found <a href="https://github.com/ZWMiller/PythonProjects/blob/master/simpleKMeans/kMeans.py">here</a>, though it has not been designed for working with images in this form. This implementation makes a class for clusters and simply cycles through the data assigning points to the various cluster objects as decided by the distance. It's effective, but severely under-optimized for speed. However, I think it's an instructive read through if you're wondering about how a clustering algorithm can be simply designed.<br><br>
+          In practice, I used the pre-built Kmeans algorithm provided by <a href="http://scikit-learn.org/stable/">Scikit-Learn</a>. This is an optimized algorithm that runs really quickly and has a lot of nice features. I initialized it with <a href="https://en.wikipedia.org/wiki/K-means%2B%2B">Kmeans++</a>, then fed it my color space data and let it go to town finding clusters. At the end, I computed the mean value of all the points in a color cluster, giving me the average RGB value for each cluster. Then I re-colored every point in the cluster with that average value, and redrew the picture with this new "flattened" color scheme. PILLOW once again does a lot of the heavy lifting for redrawing the image. Let me show you an example:
+          <img src="images/ColorClusterDemo.png" class="picsWide" alt="Color Clustering Demo"><center><small>Julie without and with color "flattening."</small></center><br><br>
+          The original version of this image has over 100,000 uniquely colored pixels in it. In the right two images, we've found clusters for all the pixels and assigned each pixel the average color of its cluster; so there are only 2 and 5 total unique colors, respectively. In this project, the choice of k (number of clusters) is governed by artistic license, since there isn't really a "correct" way to colorize the image, so I've put together a gif cycling through choices of k from 2-15, ending with the original picture for comparison.<br><br> 
+          <img src="images/juliehatclusters.gif" class="picsWide" style="width:40%; display:block; margin-left:auto; margin-right:auto;" alt="Color Clustering Demo Gif"><center><small>Julie with various numbers of clusters</small></center><br><br>
+          One of the beautiful things is I've designed this script to be totally image independent. Simply feed it an image, it will do all of the determination of how to get the RGB (there are several "types" of images that encode things a bit differently such as JPG, PNG, etc), then create the vector space and analyze it. On top of that, I've put together a handy little BASH script that will run the code over-and-over with different values for number of clusters. Some other sample images are shown below.<br><br>
+          <img src="images/sunsetclusters.gif" class="picsWide" style="width:60%; display:block; margin-left:auto; margin-right:auto;" alt="Color Clustering Demo Gif"><center><small>A sunset with various numbers of clusters</small></center>
+          <img src="images/McKinley.gif" class="picsWide" style="width:60%; display:block; margin-left:auto; margin-right:auto;" alt="Color Clustering Demo Gif"><center><small>Mt. Mckinley with various numbers of clusters</small></center>
+          <img src="images/windowsbackground.gif" class="picsWide" style="width:60%; display:block; margin-left:auto; margin-right:auto;" alt="Color Clustering Demo Gif"><center><small>Ye olde Windows background with various numbers of clusters</small></center><br><br>
+          All of the code for this project can be found here: <a href="https://github.com/ZWMiller/PythonProjects/tree/master/imageFlattener"><big>Image Flattener in Python</big></a>. The final version is called imageFlattener_sklearn.py, but there is also a version using my write-up of Kmeans that can also work (so you can see how the algorithm works in a more mechanical way). It's a bit slower and less polished than the final version I used.
+          <br><br>
+        </div>
+        <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2017 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78141736-2', 'auto');
+    ga('send', 'pageview');
+
+</script>

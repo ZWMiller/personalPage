@@ -1,0 +1,263 @@
+
+/* WHOLE PAGE */
+html,
+body {
+  font-family: Sans-Serif;
+  font-size: 18px;
+  background-color: #333;
+  height: 100%;
+  text-align: left;
+}
+
+
+@media(min-width:60em){html{font-size: 100%}}
+
+@media(max-width:480px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 70%;
+  }
+}
+
+@media(max-width:375px){
+  /* styles for mobile browsers smaller than 480px; (iPhone) */
+  html,body{
+    font-size: 60%;
+  }
+}
+
+#content {
+  background-color: #FFF;
+  width: 90%;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  margin-left: auto; 
+  margin-right: auto;
+  height: auto !important; 
+  min-height: 100%; 
+  position: relative;
+}
+
+/* logo AND LOGO */
+#logo {
+  width: 60%;
+  overflow: hidden;
+  margin:0 auto;
+}
+
+#logoT {
+  vertical-align:middle;
+  display: inline-block;
+}
+
+#logo img {
+  vertical-align:middle;
+  display: inline-block;
+  width:30%;
+  /*float: left;*/
+}
+
+#logo span {
+  display: inline-block;
+  vertical-align:middle;
+}
+
+#logoT h1 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  //font-size: 36px;
+  font-size: 2.0em;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  //line-height: 26.4px;
+  margin: 1px;
+  padding: 1px;
+  /*vertical-align: middle;
+  display: inline-block;*/
+}
+
+#logoT h3 {
+  font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+  //font-size: 20px;
+  font-size: 1.2em;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 500;
+  //line-height: 15.4px;
+  margin: 1px;
+  padding: 1px;
+  /*vertical-align:middle;
+  display: inline-block;*/
+}
+
+/* LINK BAR */
+#linkBar {
+  width: 80%;
+}
+
+li {
+  display: inline; 
+}
+
+#linkBar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  //height: 30px;
+  text-align: justify;
+}
+
+ul li {width:20%;
+  list-style:none;
+  display:inline-block;
+  text-align:justify;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #333;
+  text-align: center;
+  padding: 5px 2px;
+  text-decoration: none;
+}
+
+#inLineList li {
+  clear: left;
+  clear: inline;
+}
+
+#inLineList ul li{
+  clear: inline-block;
+}
+
+/* Change the link color to #111 (black) on hover */
+#linkBar li a:hover {
+  background-color: #333;
+  color: #FFF
+}
+
+/* BODY */
+h3 {
+  margin: 1px;
+  padding: 1px;
+}
+
+#article {
+  width: 70%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+#projects {
+  width: 90%;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.pics{
+  width: 40%;
+  float: left;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.picsRight{
+  width: 40%;
+  float: right;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+.picsWide{
+  width: 100%;
+  vertical-align: top;
+  border:1px solid #333;
+  margin:20px;
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+.pics img{
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:2px solid #333;
+}
+
+.descrip {
+  margin-left: 40%;
+  width: 65%;
+  overflow: hidden;
+  position: relative;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #1961d6;
+  color: white;
+}
+
+.code {
+  width=60%;
+  font-family:"Courier New",monospace;
+  background-color:#EEE;
+  margin: 0 auto;
+}
+
+
+/* FOOTER */
+#footer {
+  width: 80%;
+  bottom: 0;
+}
+
+#mediaLinks {
+  width: 60%;
+
+}
+
+#mediaLinks ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFF;
+  width: 80%;
+  //height: 60px;
+  text-align: justify;
+}
+
+#mediaLinks img {
+  width:50%;
+}
+
+/* GENERIC */
+
+span.clear { clear: left; display: block; }

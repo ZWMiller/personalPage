@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Zachariah W Miller - Data Science, Physics, Software
+    </title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="blog.html">Blog</a></li>
+              <li><a href="resume.html">Resum&eacute;</a></li>
+              <li><a href="about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <div id="projects">
+            <div class="pics">
+              <a href="projects/kMeansColorCompressor.html"><img src="images/imageFlattener.png" alt="Color Compressor"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/kMeansColorCompressor.html"><h4>KMeans Color Compressor</h4></a>
+              Using a clustering algorithm called KMeans, I stylize images by forcing pixels into groups of colors.
+            </div>
+            <div class="pics">
+              <a href="projects/hallOfFame.html"><img src="images/vottoData.png" alt="Hall of Fame Probability"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/hallOfFame.html"><h4>Will Joey Votto Make the Hall Of Fame?</h4></a>
+              Using machine learning methods, I investigate what it takes to make the HOF and who among active players is likely to join the legends.
+            </div>
+            <div class="pics">
+              <a href="projects/wordCrawler.html"><img src="projects/images/kjvPlot.png" alt="Word Highlighter Plot"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/wordCrawler.html"><h4>Which Word is the Most Biblical? </h4></a>
+              This web-crawler extracts the text from around the web then finds and highlights the most common words.
+            </div>
+            <div class="pics">
+              <a href="projects/anaTree.html"><img src="projects/images/dcaZ_pt.png" alt="Analysis Tree Maker"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/anaTree.html"><h4>Analysis Tree Maker</h4></a>
+              This C++ code is used to convert an unmanageable 60+TB of data into a smaller, but still usable data structure for extracting physics results.
+            </div>
+            <div class="pics">
+              <a href="projects/zPlotClass.html"><img src="images/zPlotIcon.png" alt="zPlotClass"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/zPlotClass.html"><h4>zPlot - A ROOT Extension</h4></a>
+              A C++ class to make managing plot-like objects within CERN's ROOT program simpler, more user-friendly, and more consistent.
+            </div>
+            <div class="pics">
+              <a href="projects/randomwalk/index.html"><img src="images/randomWalkExample.png" alt="Random Walker Example"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/randomwalk/index.html"><h4>The Drunken Walker(s)</h4></a>
+              A visualization of the classic "drunken walk" physics thought-experiment. A mix of random numbers and Jackson Pollock.
+            </div>
+            <div class="pics">
+              <a href="projects/baseballsimulator/index.html"><img src="images/baseballSim.png" alt="Baseball Simulator"></a>
+            </div>
+            <div class="descrip">
+              <a href="projects/baseballsimulator/index.html"><h4>Baseball Simulator</h4></a>
+              Input the statistics of two teams of baseball players, then simulate games to your heart's content. 
+            </div>
+          </div>
+            <center>
+              <h4>Write-ups on more projects coming soon...<br>See <a href="https://www.github.com/zwmiller">www.github.com/zwmiller</a> for more.</h4>
+            </center>
+
+          <br>
+        </div>
+        <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2017 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78141736-2', 'auto');
+    ga('send', 'pageview');
+
+</script>

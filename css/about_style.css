@@ -28,6 +28,10 @@ body {
   }
 }
 
+a {
+  color: #333
+}
+
 #content {
   background-color: #FFF;
   width: 90%;

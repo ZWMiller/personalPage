@@ -1,0 +1,99 @@
+Zachariah W. Miller, Ph.D.
+(270) 317-2618
+zachariah.w.miller@gmail.com
+www.zwmiller.com
+
+————————————————————
+Summary
+————————————————————
+
+Ph.D. in experimental nuclear physics, focusing on data-driven research and solutions with large scale datasets and statistical analysis techniques. Looking for opportunities to solve interesting problems with data analysis, model building, machine learning, and software design. Passionate about using scientific techniques on “non-science” puzzles to extract answers from data for real- world application, understanding the world via data, and making predictions from models.
+—————————————————————
+Skills and Expertise
+—————————————————————
+
+ - Fluent with C++, Python, and UNIX
+ - Experienced with shell scripting (BASH), LaTeX, Java, Javascript, C#, and R
+ - Cluster Computing, Numerical Computing Methods, and Machine Learning experience
+ - Previous work with Monte Carlo Simulation Methods and Mathematical Modeling
+ - Skilled at translating complex topics into common English
+ - Excellent communicator with experience leading research teams and classrooms
+ - Deadline oriented, works well as part of a team or independently
+ - Published multiple times in leading peer-reviewed journals
+
+————————————————————————
+Professional Experience
+————————————————————————
+
+Postdoctoral Researcher (2015 - Present)
+University of Illinois at Chicago: Chicago, IL
+
+ - Large scale data analysis to extract physics results from 100s of terabytes
+ of data, with C++ and Python. Big Data Techniques. - Member of embedding
+ team that produces simulations for the entire collaboration. Responsible for
+ production and quality assurance. - Co-supervisor of undergraduate research students (2016). - Member of maintenance team for Intermediate Silicon Tracker detector (decommissioned 2016)
+
+Research Assistant (2010 - 2015)
+University of Kentucky: Lexington, KY
+
+ - Research, design, and development for a prototype neutron detector for measuring
+ neutrons produced by Uranium fission. - Designed and built front-end GUI
+ and back-end analyzer for a data acquisition system to interface with and
+ record data from detectors using Java and C++. Implemented the database that stores the data. - Measurements of neutron-induced fission cross-sections, filling in gaps in the world’s knowledge about the process.
+
+Adjunct Faculty – Astronomy 130 (2011)
+Eastern Kentucky University: Richmond, KY
+ - Designed and taught Introductory Astronomy for non-Physics Majors.
+
+Teaching Assistant (2007 - 2011)Eastern Kentucky University/University of Kentucky
+ - Taught recitation and laboratory portions of introductory physics courses for both physics majors and non-majors.
+
+————————————————————
+Education
+————————————————————
+
+University of Kentucky 
+Ph.D. Nuclear Physics (2012 - 2015)
+Master of Science (2009 - 2012) 
+Eastern Kentucky University 
+B.S. Physics (Cum Laude) (2005 - 2009)
+Minor: Mathematics
+
+————————————————————
+Awards
+————————————————————
+
+ - Outstanding Teaching Assistant Award, University of Kentucky (2011)
+ - Graduate Fellowship, University of Kentucky (2009 - 2010)
+
+—————————————————————
+Selected Publications
+—————————————————————
+
+ - “Response of BC-418 Plastic Scintillator to Low-Energy Protons”, B.H. Daub, V. Henzl, M.A. Kovash, J.L. Matthews, Z.W. Miller, K. Shoniyozov, H. Yang, Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrometers, Detectors and Associated Equipment, Volume 701, 11 February 2013, Pages 171-175, ISSN 0168- 9002, http://dx.doi.org/10.1016/j.nima.2012.11.025 
+ - “Measurements of the Neutron-Proton and Neutron-Carbon Total Cross-Sections from 150 to 800 keV,” B. H. Daub, V. Henzl, M. A. Kovash, J. L. Matthews, Z. W. Miller, K. Shoniyozov, and H. Yang, PHYSICAL REVIEW C 87, 014005 (2013), 25 January 2013, http://link.aps.org/doi/10.1103/PhysRevC.87.014005 
+
+————————————————————————————
+Selected Seminars and Talks
+————————————————————————————
+
+ - “Bottom Production at RHIC with the STAR Experiment.” Santa Fe Jets and Heavy Flavor Workshop. Santa Fe, NM. January 11-13, 2016 
+ - “Neutron-Induced Fission Cross Sections for Uranium-238 Above 100 MeV.” LANSCE Nuclear Science Group, Los Alamos National Laboratory. Los Alamos, NM. December 11, 2013 
+
+————————————————————————
+Professional Membership
+————————————————————————
+
+ - Society of Physics Students
+ - American Physical Society 
+ - American Association of Physics Teachers 
+ 
+————————————————————
+Volunteer Work
+————————————————————
+
+ - Board Member, Northwest Territory Alliance (Educational Non-Profit)
+ - Adopt-a-Physicist 2016 - Pairs physicists with high school classes for discussion
+ - Machine learning project published on ESPN Affiliated Blog:
+ https://redlegnation.com/2017/01/17/will-joey-votto-make-the-hall-of-fame-2/ 
+

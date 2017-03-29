@@ -170,6 +170,20 @@ li a {
   margin: auto;
 }
 
+.picsRight img{
+  width: 40%;
+  float: right;
+  vertical-align: top;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border:1px solid #333;
+  margin:20px;
+}
+
+#toptext {
+  text-align: justify
+}
 
 @media only screen and (max-device-width: 480px){
   .pics img{
@@ -198,7 +212,6 @@ li a {
 
 #mediaLinks {
   width: 60%;
-
 }
 
 #mediaLinks ul {
