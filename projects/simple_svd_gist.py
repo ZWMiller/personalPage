@@ -17,14 +17,10 @@ user_item_mat = pd.DataFrame(generate_users(num_users,num_items), columns=cols)
 user_item_mat.index = rows
 
 from scipy.linalg import svd
-
 U, Sigma, VT = svd(user_item_mat)
-
 VT = VT[:3,:]
-pd.DataFrame(VT.T)
-
 U = U[:,:3]
-pd.DataFrame(U)
+
 
 compare_item = 2
 for item in range(num_items):
