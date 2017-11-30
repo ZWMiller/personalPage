@@ -1,11 +1,25 @@
 import numpy as np
 
-a = np.random.uniform(0,1,10000000)
+size = 10000000
+a = np.array([i for i in range(size)])
 print(type(a))
-b = a.tolist()
+b = [i for i in range(size)]
 print(type(b))
-c = tuple(b)
+c = tuple(i for i in range(size))
 print(type(c))
+
+%%timeit
+sm = np.sum(a)
+
+%%timeit
+sm=0
+for x in b:
+    sm+=x
+
+%%timeit
+sm=0
+for x in c:
+    sm+=x
 
 %%timeit
 a+0.5
