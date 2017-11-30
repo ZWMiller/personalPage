@@ -57,4 +57,6 @@ test2 = [x for x in b if x2(x) > 0.3]
 
 np.sum(np.array(test) - np.array(test2) != 0)
 
-
+%%timeit 
+gen = (x+0.5 for x in b)
+q = [x for x in gen]
