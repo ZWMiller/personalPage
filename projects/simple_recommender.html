@@ -5,7 +5,7 @@
     <!-- For viewing the page on mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>
-      Zachariah W Miller - Data Science, Physics, Software
+      Recommendation Engines for Dummies - ZWMiller
     </title>
     <link rel="stylesheet" href="../css/project_style.css">
     <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
@@ -48,7 +48,7 @@
           <h3>Recommendation Engines for Dummies</h3>
           <small>Nov. 17, 2017 - Python</small>
           <br><br>
-          Recommendation engines are an extremely integral part of modern business. You see them everywhere - Amazon, Netflix, Tinder - the list can go on forever. So, what really drive recommendation engines? Today we're going to take a quick look at one specific type of recommendation engine - collaborative filtering. This is the type of recommendation we would use for problems like, "what movie should I recommend you on Netflix?" We want to exploit the fact that people with similar tastes tend to rate the same movies highly (or lowly). For instance, if I really love Star Wars, it would make sense for the system to recommend Star Trek to me since it's another sci-fi series. That's the intuition we want to build upon - the correlation in tastes. To do this, we're going to rely on dimensionality reduction. Let's start by generating a very simple dataset to play with. To do this, I'll be using Pandas and Numpy, two wonderful python libraries. It's not super important that you understand those libraries to follow along with the rest of the blog. For now, just know that pandas is being used to control the table of data, and the numpy is being used to do a bunch of numeric calculations.<br><br>
+          Recommendation engines are an extremely integral part of modern business. You see them everywhere - Amazon, Netflix, Tinder - the list can go on forever. So, what really drives recommendation engines? Today we're going to take a quick look at one specific type of recommendation engine - collaborative filtering. This is the type of recommendation we would use for problems like, "what movie should I recommend you on Netflix?" We want to exploit the fact that people with similar tastes tend to rate the same movies highly (or lowly). For instance, if I really love Star Wars, it would make sense for the system to recommend Star Trek to me since it's another sci-fi series. That's the intuition we want to build upon - the correlation in tastes. To do this, we're going to rely on dimensionality reduction. Let's start by generating a very simple dataset to play with. To do this, I'll be using Pandas and Numpy, two wonderful python libraries. It's not super important that you understand those libraries to follow along with the rest of the blog. For now, just know that pandas is being used to control the table of data, and the numpy is being used to do a bunch of numeric calculations.<br><br>
           <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=0:17"></script>
           This code loops through however many times I tell it to and generates either a 1 or a 0 for each user-item pair. This creates a table that looks like so:<br><br>
           <div id="tablediv">
@@ -491,7 +491,7 @@
           Item 2 & 4:  0.0797539176545<br>
         </div>
         <br>Excellent! Items 2 & 3 are much closer than the others, which makes sense since they had very similar likes by our users! Now let's make sure that our system is putting our similar users close together as well. <br><br>
-        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=25:28"></script>
+        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=24:28"></script>
         <div class="code">
           Output: <br>
           User 6 & 0:  -0.120624125842<br>
@@ -506,8 +506,8 @@
           User 6 & 9:  -0.0692362720077<br>
         </div>
         <br>
-        Also great! Users 6 & 8 are showing up as the most similar and since they're identical they're showing up just as strong as "how similar is user6 to user6?" So now we can make some recommendations. Let's right a little piece of code that says, "which item do you want to find similar items to?" and then can return the most similar items.<br><br>
-        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=37:46"></script>
+        Also great! Users 6 & 8 are showing up as the most similar and since they're identical they're showing up just as strong as "how similar is user6 to user6?" So now we can make some recommendations. Let's write a little piece of code that says, "which item do you want to find similar items to?" and then can return the most similar items.<br><br>
+        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=30:34"></script>
         <div class="code">
           Output: <br>
           [3, 4]
