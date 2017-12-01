@@ -482,7 +482,7 @@
         </div>
         <br>
         Awesome, we have our items mapped into the same 3D space as well. Now we're ready to start making some recommendations. In this new space, items that have a similar set of likes (for instance items 2 & 3) actually end up being very near each other in the new space. That means if we measure the distance between item 2 and all the other items, we expect that item 3 will be the closest neighbor. So this code is going to use the <a href="https://en.wikipedia.org/wiki/Dot_product">dot product</a>, which measures how close two items are. We'll see how close-by the items are - and then eventually we'll make recommendations by selecting whichever items are the closest. For the dot-product, the larger the number the closer more similar the items are.<br><br>
-        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=25:28"></script>
+        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=24:28"></script>
         <div class="code">
           Output: <br>
           Item 2 & 0:  -0.210393502959<br>
@@ -491,7 +491,7 @@
           Item 2 & 4:  0.0797539176545<br>
         </div>
         <br>Excellent! Items 2 & 3 are much closer than the others, which makes sense since they had very similar likes by our users! Now let's make sure that our system is putting our similar users close together as well. <br><br>
-        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=24:28"></script>
+        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=30:34"></script>
         <div class="code">
           Output: <br>
           User 6 & 0:  -0.120624125842<br>
@@ -507,7 +507,7 @@
         </div>
         <br>
         Also great! Users 6 & 8 are showing up as the most similar and since they're identical they're showing up just as strong as "how similar is user6 to user6?" So now we can make some recommendations. Let's write a little piece of code that says, "which item do you want to find similar items to?" and then can return the most similar items.<br><br>
-        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=30:34"></script>
+        <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/projects/simple_svd_gist.py?slice=37:46"></script>
         <div class="code">
           Output: <br>
           [3, 4]
