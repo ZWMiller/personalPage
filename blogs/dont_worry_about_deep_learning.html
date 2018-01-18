@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+    Dear aspiring data scientists, skip deep learning (for now) - ZWMiller
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Dear aspiring data scientists, just skip deep learning (for now)</h3>
+          <small>Jan 15, 2018 - Opinion, Theory</small>
+          <br><br>
+          <div class="quote"><i>"When are we going to get into deep learning, I can't wait until we do all that COOL stuff."</i><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b> - Literally all of my students ever.</b></div><br>
+          
+          Part of my job at Metis is to give reliable recommendations to my students on what technologies they should focus on in the data science world. At the end of the day, our goal (collectively) is to make sure those students are employable, so I always have my ear to the ground on what skills are currently hot in the employer world. After going through several cohorts, and listening to as much employer feedback as I can, I can say pretty confidently — the verdict on the deep learning rage is still out. I'd argue most industrial data scientists don't need the deep learning skill set at all. Now, let me start by saying: deep learning does some unbelievably awesome stuff. I do all sorts of little projects playing around with deep learning, just because I find it fascinating and promising.<br><br>
+          Computer vision? <b>Awesome.</b><br>
+          LSTM's to generate content/predict time series? <b>Awesome.</b><br>
+          Image style transfer? <b>Awesome.</b><br>
+          Generative Adversarial Networks? <b>Just so damn cool.</b><br>
+          Using some weird deep net to solve some hyper-complex problem. <b>OH LAWD IT'S SO MAGNIFICENT</b><br><br>
+
+          If this is so cool, why do I say you should skip it then? It comes down to what's actually being used in industry. At the end of the day, most businesses aren't using deep learning yet. So let's take a look into some of the reasons deep learning isn't seeing a fast adoption in the world of business.
+          
+          <h4>Businesses are still catching up to the data explosion...</h4>
+          ... so most of the problems we're solving don't actually need a deep learning level of sophistication. In data science you're always shooting for the simplest model that works. Adding unnecessary complexity is just giving us more knobs and levers to break later. Linear and logistic regression techniques are extremely underrated, and I say that knowing that many people hold them in super high esteem. I'd always hire a data scientist that is intimately familiar with traditional machine learning methods (like regression) over someone who has a portfolio of eye-catching deep learning projects, but isn't as great at working with the data. Knowing how and why things work is much more important to businesses than showing off that you can use TensorFlow or Keras to do Convolutional Neural Nets. Even employers that want deep learning specialists are going to want someone with a DEEP knowledge of statistical learning, not just some projects with neural nets.
+          
+          <h4>You have to tune everything just right...</h4>
+          ...and there's no handbook for tuning. Did you set a learning rate of 0.001? Guess what, it doesn't converge. Did you turn momentum down to the number you saw in that paper on training this type of network? Guess what, your data is slightly different and that momentum value means you get stuck in local minima. Did you choose a tanh activation function? For this problem, that shape isn't aggressive enough in mapping the data. Did you not use at least 25% dropout? Then there's no chance your model can ever generalize, given your specific data.<br><br>
+          When the models do converge well, they are super powerful. However, attacking a super complex problem with a super complex answer necessarily leads to heartache and complexity issues. There is a definite artform to deep learning. Recognizing behavior patterns and adjusting your models for them is extremely difficult. It's not something you really should take on until understand other models at a deep-intuition level.
+
+          <h4>There are just so many weights to adjust</h4>
+          Let's say you've got a problem you want to solve. You look at the data and think to yourself, "alright, this is a somewhat complex problem, let's use a few layers in a neural net." You run to Keras and start building up a model. It's a pretty complex problem with 10 inputs. So you think, let's do a layer of 20 nodes, then a layer of 10 nodes, then output to my 4 different possible classes. Nothing too crazy in terms of neural net architecture, it's honestly pretty vanilla. Just some dense layers to train with some supervised data. Awesome, let's run over to Keras and put that in:<br><br>
+          <div class="code">
+            model = Sequential()<br>
+            model.add(Dense(20, input_dim=10, activation='relu'))<br>
+            model.add(Dense(10, activation='relu'))<br>
+            model.add(Dense(4, activation='softmax'))<br>
+            print(model.summary())<br>
+          </div><br>
+          You take a look at the summary and realize: I HAVE TO TRAIN 474 TOTAL PARAMETERS. That's a lot of training to do. If you want to be able to train 474 parameters, you're doing to need a <b>ton</b> of data. If you were going to try to attack this problem with logistic regression, you'd need 11 parameters. You can get by with a lot less data when you're training 98% fewer parameters. For most businesses, they either don't have the data necessary to train a big neural net or don't have the time and resources to dedicate to training a huge network well.<br>
+        
+          <h4>Deep Learning is inherently slow</h4>
+          We just mentioned that training is going to be a huge effort. Lots of parameters + Lots of data = Lots of CPU time. You can optimize things by using GPU's, getting into 2nd and 3rd order differential approximations, or by using clever data segmentation techniques and parallelization of various parts of the process. But at the end of the day, you've still got a lot of work to do. Beyond that though, predictions with deep learning are slow as well. With deep learning, the way you make your prediction is to multiply every weight by some input value. If there are 474 weights, you've got to do AT LEAST 474 computations. You'll also have to do a bunch of mapping function calls with your activation functions. Most likely, that number of computations will be significantly higher (especially if you add in specialized layers for convolutions). So, just for your prediction, you're going to need to do 1000's of computations. Going back to our Logistic Regression, we'd need to do 10 multiplications, then sum together 11 numbers, then do a mapping to sigmoid space. That's lightning fast, comparitively.<br><br>
+          So, what's the problem with that? For many businesses, time is a major issue. If your company needs to approve or disapprove someone for a loan from a phone app, you only have milliseconds to make a decision. Having a super deep model that needs seconds (or more) to predict is unacceptable. 
+
+          <h4>Deep Learning is a "black box"</h4>
+          Let me start this section by saying, deep learning is not a black box. It's literally just the chain rule from Calculus class. That said, in the business world if they don't know exactly how each weight is being adjusted and by how much, it is considered a black box. If it's a black box, it's easy to not trust it and discount that methodology altogether. As data science becomes more and more common, people may come around and start to trust the outputs, but in the current climate there's still much doubt. On top of that, any industries that are highly regulated (think loans, law, food quality, etc) are required to use easily interpretable models. Deep learning is not easily interpretable, even if you know what's happening under the hood. You can't point to a specific part of the net and say, "ahh, that's the section that is unfairly targeting minorities in our loan approval process, so let me take that out." At the end of the day, if an inspector needs to be able to interpret your model, you won't be allowed to use deep learning.<br>
+
+          <h2>So, what should I do then?</h2>
+          Deep learning is still a young (if extremely promising and powerful) technique that's capable of extremely impressive feats. However, the world of business isn't ready for it as of January 2018. Deep learning is still the domain of academics and start-ups. On top of that, to actually understand and use deep learning at a level beyond novice requires a great deal of time and effort. Instead, as you begin your journey into data modeling, you shouldn't waste your time on the pursuit of deep learning; as that skill isn't going to be the one that gets you a job for 90%+ of employers. Focus on the more "traditional" modeling methods like regression, tree-based models, and neighborhood searches. Take the time to learn about real-world problems like fraud detection, recommendation engines, or customer segmentation. Become excellent at using data to solve real-world problems (there are tons of great Kaggle datasets). Spend the time to develop excellent coding habits, reusable pipelines, and code modules. Learn to write unit tests.<br><br>
+          This is the exact feedback we hear from the employers we partner with at Metis, "data scientists are all worrying about deep learning, but our company doesn't do any deep learning. We'd rather see data scientists that are good with regression and SQL." It's a common refrain, as most companies just aren't on the cutting-est edge, yet. If they aren't hiring for deep learning, and you've spent all your time learning deep learning, you just aren't going to have the skill set that's currently in play.<br><br>
+          However, once you do have the skill set that matters, I highly recommend diving into the deep learning craze, even if it's just casually. There's a lot of REALLY cool stuff happening there. It's just not the best use of your time if you're trying to learn how to do data science.<br><br> 
+
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

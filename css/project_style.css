@@ -237,6 +237,28 @@ th {
   margin: 0 auto;
 }
 
+.inline_code{
+  font-family:"courier";
+  background-color:#EEE;
+}
+
+.quote {
+  width=60%;
+  display: block;
+  font-family:"Georgia";
+  color:#666;
+  background-color:#EEE;
+  margin: 0 auto;
+  font-size: 20px;
+  text-align:center;
+  vertical-align: middle;
+  border-left: .25rem solid #BBB;
+  border-right: .25rem solid #BBB;
+  border-top: .15rem solid #CCC;
+  border-bottom: .15rem solid #CCC;
+  padding-top: 1.5rem;
+  padding-bottom:1rem;
+}
 
 /* FOOTER */
 #footer {
