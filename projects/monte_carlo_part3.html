@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      What is a Monte Carlo Simulation (Part 1) - ZWMiller
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>What is a Monte Carlo Simulation (Part 3)</h3>
+          <small>Jan 22, 2018 - Python</small>
+          <br><br>
+          <small><i>This is part 3 of a several part series dedicated to investigating how Monte Carlo can be a great tool. <a href="monte_carlo_part1.html">Part 1</a> introduces the concept of Monte Carlo. <a href="monte_carlo_part2.html">Part 2</a> teaches us how to do MC in Python. If you haven't read those yet, I recommend you start there. <a href="monte_carlo_part4.html">Part 4</a> attacks the problem of trying to do particle physics simulations with Monte Carlo. </i></small>
+
+          <h4>Can you beat the casino in <a href="notebooks/video_poker.html">video poker?</a></h4>
+
+          Spoiler alert: No, you can't. If you could, the games wouldn't be in the casino. However, meta logic aside, how definite is it that the casino will always beat you? We're going to use Monte Carlo to explore that concept. The methodology will go a little bit like this: build out a python representation of a card deck, then use MC methodology to determine the best possible play you can make given your hand, then make that play and track your money over time.<br><br>
+          The MC part will come into play when we select which cards to hold in the game (if you aren't familiar with video poker, try checking this out: <a href="https://en.wikipedia.org/wiki/Video_poker#The_game">https://en.wikipedia.org/wiki/Video_poker#The_game</a>). We'll see what cards we have, then simulate the results of choosing to hold the cards, and see what method gives us the best possible pay-out. Since this is a lot of work, I've put together a fairly long notebook that shows you all the code it takes to build a card deck, setup the poker game (we have to do the hand scoring), and then actually run the Monte Carlo simulations to see what happens. Throughout the <a href="notebooks/video_poker.html">Video Poker Monte Carlo Notebook</a> there are lots of comments and text blurbs to explain the methodology. 
+          <a href="notebooks/video_poker.html"><img src="images/monte_carlo/part3/tracking_poker.png" class="picsWide" alt="Sample image from poker analysis"></a><br>
+
+          <h4>So what did we learn?</h4>
+
+          As you can see from the notebook, even if you play poker perfectly by always making the move that gives you the best expected return, the casino pretty much always comes out on top if you play long enough. We built out some pretty nifty machinery to be able to let Python play cards with itself over and over to figure what that best move is and it's still all for naught. However, along the way we've learned about using combinations of cards, multiple randomized simulations, and expected returns to make better choices. We also see that by playing smartly, we can WAY outperform playing randomly. In our next installment, we'll investigate how we can use these same principles to figure out how particles interact with matter by building our own <a href="monte_carlo_part4.html">particle simulation package in Python!</a><br><br>
+
+
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

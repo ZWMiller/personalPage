@@ -52,8 +52,10 @@
           Generative Adversarial Networks? <b>Just so damn cool.</b><br>
           Using some weird deep net to solve some hyper-complex problem. <b>OH LAWD IT'S SO MAGNIFICENT</b><br><br>
 
-          If this is so cool, why do I say you should skip it then? It comes down to what's actually being used in industry. At the end of the day, most businesses aren't using deep learning yet. So let's take a look into some of the reasons deep learning isn't seeing a fast adoption in the world of business.
+          If this is so cool, why do I say you should skip it then? It comes down to what's actually being used in industry. At the end of the day, most businesses aren't using deep learning yet. So let's take a look into some of the reasons deep learning isn't seeing a fast adoption in the world of business.<br><br>
           
+          <img src="images/x_deep_learning.jpg" class="picsWide" alt="X Through Deep Neural Net">
+
           <h4>Businesses are still catching up to the data explosion...</h4>
           ... so most of the problems we're solving don't actually need a deep learning level of sophistication. In data science you're always shooting for the simplest model that works. Adding unnecessary complexity is just giving us more knobs and levers to break later. Linear and logistic regression techniques are extremely underrated, and I say that knowing that many people hold them in super high esteem. I'd always hire a data scientist that is intimately familiar with traditional machine learning methods (like regression) over someone who has a portfolio of eye-catching deep learning projects, but isn't as great at working with the data. Knowing how and why things work is much more important to businesses than showing off that you can use TensorFlow or Keras to do Convolutional Neural Nets. Even employers that want deep learning specialists are going to want someone with a DEEP knowledge of statistical learning, not just some projects with neural nets.
           
@@ -71,7 +73,7 @@
             print(model.summary())<br>
           </div><br>
           You take a look at the summary and realize: I HAVE TO TRAIN 474 TOTAL PARAMETERS. That's a lot of training to do. If you want to be able to train 474 parameters, you're doing to need a <b>ton</b> of data. If you were going to try to attack this problem with logistic regression, you'd need 11 parameters. You can get by with a lot less data when you're training 98% fewer parameters. For most businesses, they either don't have the data necessary to train a big neural net or don't have the time and resources to dedicate to training a huge network well.<br>
-        
+    
           <h4>Deep Learning is inherently slow</h4>
           We just mentioned that training is going to be a huge effort. Lots of parameters + Lots of data = Lots of CPU time. You can optimize things by using GPU's, getting into 2nd and 3rd order differential approximations, or by using clever data segmentation techniques and parallelization of various parts of the process. But at the end of the day, you've still got a lot of work to do. Beyond that though, predictions with deep learning are slow as well. With deep learning, the way you make your prediction is to multiply every weight by some input value. If there are 474 weights, you've got to do AT LEAST 474 computations. You'll also have to do a bunch of mapping function calls with your activation functions. Most likely, that number of computations will be significantly higher (especially if you add in specialized layers for convolutions). So, just for your prediction, you're going to need to do 1000's of computations. Going back to our Logistic Regression, we'd need to do 10 multiplications, then sum together 11 numbers, then do a mapping to sigmoid space. That's lightning fast, comparitively.<br><br>
           So, what's the problem with that? For many businesses, time is a major issue. If your company needs to approve or disapprove someone for a loan from a phone app, you only have milliseconds to make a decision. Having a super deep model that needs seconds (or more) to predict is unacceptable. 

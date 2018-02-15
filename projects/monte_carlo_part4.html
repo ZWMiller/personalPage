@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      What is a Monte Carlo Simulation (Part 1) - ZWMiller
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>What is a Monte Carlo Simulation (Part 4)</h3>
+          <small>Jan 22, 2018 - Python</small>
+          <br><br>
+          <small><i>This is part 3 of a several part series dedicated to investigating how Monte Carlo can be a great tool. <a href="monte_carlo_part1.html">Part 1</a> introduces the concept of Monte Carlo. <a href="monte_carlo_part2.html">Part 2</a> teaches us how to do MC in Python. <a href="monte_carlo_part3.html">Part 3</a> explores how we can use Monte Carlo to attempt to outplay the odds in Video Poker. If you haven't read those yet, I recommend you start there.</i></small>
+
+          <h4>How do physicists use Monte Carlo to simulate <a href="notebooks/particle_simulator.html">particle interactions?</a></h4>
+          Understanding how particles behave is hard. Really hard. "Dedicate your whole life just to figure how often neutrons scatter off of protons when they're going at this speed, but then slowly realizing that question is still too complicated and I can't answer it despite spending the last 30 years trying, so what if I just figure out how neutrons behave when I shoot them at objects rich with protons and then try to figure out what they're doing there and work backward to what the behavior would be if the protons weren't currently bonded with lithium. Oh SCREW IT I've got tenure so I'm just going to teach and write books about how terrible neutrons are..." hard.<br><br>
+          Due to this challenge, physicists almost always need to design experiments with extreme care. To do that, they need to be able to simulate what they expect will happen when they set up their experiments, so that they don't waste a bunch of time, money, and effort only to find out that their experiment is designed in a way that has no chance of working. The tool of choice to make sure the experiments have a chance at success is Monte Carlo. Physicists will design the experiments entirely in the simulation, then shoot particles into their detectors and see what happens based on what we currently know. This gives them a reasonable idea of what's going to happen in the experiment. Then they can design the experiment, run it, and see if it agrees with how we currently understand the world. It's a really cool system of using Monte Carlo to make sure that science is efficient.<br><br>
+          A few programs that nuclear and particle physicists tend to use often are GEANT and Pythia. These are magnificent tools that have gigantic teams of people managing them and updating them. They're also so complicated that it's borderline uninstructive to look into how they work. To remedy that, we're going to build our own, much much much (much^1,000,000) simpler, version of GEANT. We'll only work in 1-dimension for now.<br><br>
+          So before we get started, let's break down what the goal is (see next paragraph if the particle talk throws you off): we want to be able to create some block of material, then shoot a particle into it. The particle will move through the material and have a random chance of bouncing in the material. If it bounces it loses speed. Our ultimate goal is to figure out: based on the starting speed of the particle, how likely is it that it can get through the material? We'll then get more complicated and say, "what if there were two different materials stacked back to back?"<br><br>
+          For those who think, "whoa, what's with the particle stuff, can you give me a metaphor that is more easy to understand?" Yes. Yes, I can. Imagine that you're shooting a bullet into a block of "bullet stopping material. Depending on how "absorb-y" the material is, the bullet may or may not actually be stopped. We can model that "absorb-y-ness" by using random numbers to decide if the bullet slows down after each time it takes a step in the material. We want to measure, how likely is it that the bullet makes it through the block. So in the physics parlance: the bullet is the particle, and the material is the block. Without further adieu, here is the <a href="notebooks/particle_simulator.html">Particle Simulator Monte Carlo Notebook</a>. There are lots of comments and text blurbs to explain the methodology and why we're making the choices we do. Enjoy! 
+          <a href="notebooks/particle_simulator.html"><img src="images/monte_carlo/part4/survival_phase_space.png" class="picsWide" alt="Sample image from particle tracking."></a><br>
+
+          <h4>So what did we learn?</h4>
+
+          We've learned how to simulate basic particle interactions by giving a particle some velocity and then moving it through a space. We then added the ability to create blocks of material with different properties that define them, and stack those blocks together to form an entire surface. We combinded those two ideas and used Monte Carlo to test whether particles can make it through blocks of material or not - and discovered that it really depnds on the initial speed of the particle. We also found out that the way that the speed is linked to survival isn't very intuitive! It's not just a straight line or an "on-off" step-function. Instead it's a slightly weird "turn-on-slowly" shape that changes based on the material present! This approximates really closely how physicists approach just these types of questions!<br><br>
+
+
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

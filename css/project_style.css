@@ -150,6 +150,10 @@ h3 {
   padding: 1px;
 }
 
+a {
+  color: #333;
+}
+
 #article {
   width: 70%;
   margin-left: auto; 

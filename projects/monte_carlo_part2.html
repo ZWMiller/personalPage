@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      What is a Monte Carlo Simulation (Part 1) - ZWMiller
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>What is a Monte Carlo Simulation (Part 2)</h3>
+          <small>Jan 17, 2018 - Python</small>
+          <br><br>
+          <small><i>This is part 2 of a several part series dedicated to investigating how Monte Carlo can be a great tool. <a href="monte_carlo_part1.html">Part 1</a> introduces the concept of Monte Carlo. If you haven't read it yet, I recommend you start there. In <a href="monte_carlo_part3.html">part 3</a>, we'll tackle trying to outsmart a casino with Monte Carlo techniques. <a href="monte_carlo_part4.html">Part 4</a> attacks the problem of trying to do particle physics simulations with Monte Carlo. </i></small>
+
+          <h4>How do we work with Monte Carlo in Python?</h4>
+          A great tool for doing Monte Carlo simulations in Python is the numpy library. Today we'll focus on using its random number generators, as well as some traditional Python, to setup two sample problems. These problems will lay out the best way for us think about building our simulations in the future. Since I plan to spend the next blog talking in detail about how we can use MC to solve much more complicated problems, let's start with two simple ones:<br><br> 1) If I know that 70% of the time I eat chicken after I eat beef, what percentage of my overall meals are beef? <br>2) If there really was a drunk guy randomly walking around a bar, how often would he make it to the bathroom?<br><br>
+
+          To make this easy to follow along with, I've uploaded some Python notebooks where the entirety of the code is available to view and there are notes throughout to help you see exactly what's going on. So click on over to those, for a walk-through of the problem, the code, and a solution. After seeing how we can setup simple problems, we'll move on to trying to defeat video poker, a much more complicated problem, in <a href="monte_carlo_part3.html">part 3</a>. After that, we'll investigate how physicists can use MC to figure out how particles will behave in part 4, by building our own particle simultor (also coming soon).<br><br>
+          <h3>What is my <a href="notebooks/average_dinner.html">average dinner?</a></h3><br>
+           The <a href="notebooks/average_dinner.html">Average Dinner Notebook</a> will introduce you to the idea of a transition matrix, how we can use weighted sampling, and the idea of using a large amount of samples to be sure we're getting a consistent answer.<br>
+           <a href="notebooks/average_dinner.html"><img src="images/monte_carlo/part2/dinner_percentage.png" class="picsWide" alt="Sample image from dinner analysis"></a><br><br>
+
+           <h3>Will our drunk friend <a href="notebooks/random_walk.html">make it to the bathroom?</a></h3><br>
+          The <a href="notebooks/random_walk.html">Random Walk Notebook</a> will get into deeper territory of using a detailed set of rules to layout the conditions for success and failure. It will teach you how to break down a big chain of motions into single calculable actions, and how to keep track of winning and losing in a Monte Carlo simulation so that you can find statistically interesting results.<br>
+          <a href="notebooks/random_walk.html"><img src="images/monte_carlo/part2/single_random_walk.png" class="picsWide" alt="Sample image from random walk analysis"></a><br>
+
+          <h4>So what did we learn?</h4>
+
+          We've gained the ability to use numpy's random number generator to extract statistically significant results! That's a huge first step. We've also learned how to frame Monte Carlo problems such that we can use a transition matrix if the problem calls for it. Notice that in the random walk the random number generator didn't just choose some state that corresponded to win-or-not. It was instead a chain of steps that we simulated to see whether we win or not. On top of that, we also were able to convert our random numbers into whatever form we needed, casting them into angles that informed our chain of motions. That's another big part of why Monte Carlo is such a flexible and powerful technique: you don't have to just pick states, but can instead pick individual motions that lead to different possible outcomes.<br><br>
+          In the next installment, we'll take everything we've learned from these problem and work on applying them to a more complicated problem. In particular, we'll focus on trying to <a href="monte_carlo_part3.html">beat the casino in video poker.</a><br><br>
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>
