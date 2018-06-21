@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      What is a Monte Carlo Simulation (Part 5) - ZWMiller
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>What is a Monte Carlo Simulation (Part 5)</h3>
+          <small>Feb. 17, 2018 - Python</small>
+          <br><br>
+          <small><i>This is part 5 of a several part series dedicated to investigating how Monte Carlo can be a great tool. <a href="monte_carlo_part1.html">Part 1</a> introduces the concept of Monte Carlo. <a href="monte_carlo_part2.html">Part 2</a> teaches us how to do MC in Python. <a href="monte_carlo_part3.html">Part 3</a> explores how we can use Monte Carlo to attempt to outplay the odds in Video Poker. <a href="monte_carlo_part4.html">Part 4</a> attacks the problem of trying to do particle physics simulations with Monte Carlo. If you haven't read those yet, I recommend you start there.</i></small>
+
+          <h4>Using Monte Carlo to <a href="notebooks/optimizing_websites.html">Measure Business Impact</a></h4>
+
+          In all the previous parts of this series on Monte Carlo techniques, we've focused on the techniques and how we can use them in sort of niche settings. However, in <a href="monte_carlo_part1.html">part 1</a>, I mentioned that this is a really powerful technique for real world applications. Today, we'll focus on one such case. Let's imagine that your company pays a consulting group to come in and optimize your website for audience retention. They run their analysis and proudly announce that they've found a way to direct 10% more traffic from your frequently asked questions page back to your main website. Essentially, cutting your bounce rate from that page by 10%. That's amazing, right? A retention upgrade of 10% is a solid step up, and much larger than most businesses will ever see. The consulting firm charges you and arm-and-a-leg for this analysis and result. Was it worth it?<br><br>
+          Your initial instinct is that, well as long as their rate was less than 10% of my revenue, I come out on top. But it's not so clear. They've only optimized one page, and they haven't optimized on sales but on audience retention. How does this actually change your bottom line overall? Is it a 10% increase? Is it even a noticeable increase at all? How can you convert their optimization back to monetary gain? We're going to do it using Monte Carlo techniques in this notebook on  <a href="notebooks/optimizing_websites.html">Measuring Business Impact with MC. </a>
+
+          <a href="notebooks/optimizing_websites.html"><img src="images/monte_carlo/part5/business_impact.png" class="picsWide" alt="Sample image from analysis of CTR."></a><br>
+
+          <h4>So what did we learn?</h4>
+
+          In this example, we took all of the knowledge we gained from the previous entries in the series and applied it to a real-world problem (albeit with a faux dataset). We saw that by applying this technique, we can convert between customer behavior and revenue, accounting for all the different ways that a customer might interact with our website. At the end of the day, we found that even though there was a 10% increase in audience retention, we only see a roughly 2% shift in the mean, and that result might not even be statistically significant compared to the randomness inherent in audience rreactions. Monte Carlo let us go from, "WOW a 10% increase" to "Hmm, I don't know if that was worthwhile for our business."<br><br>
+
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

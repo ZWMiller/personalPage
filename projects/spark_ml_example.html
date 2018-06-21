@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Machine Learning with Spark
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Machine Learning with Spark</h3>
+          <small>June 21, 2018 - Spark, AWS, EMR</small>
+          <br>
+          <h4>Part 1: Getting Ready to do Work</h4>
+          This tutorial will assume that you already have Spark installed and the dataset of all airline flights between 1987-2007 loaded into HDFS. If that's not true, you can go to my previous post <a href="setting_up_spark_cluster.html">Setting Up a Spark Cluster</a> to build your own Spark Cluster.<br><br>
+          Let's also discuss the problem we're going to try to solve. Our goal is to build a machine learning model that predicts how much a flight will be delayed by, given the airport, month, day of the week, etc. Let's start out by noting this is almost certainly not going to work well - if it was that predictable, people would already be exploiting that when booking flights. Instead, we're going to use this as an excuse to learn the syntax of doing machine learning in Spark.<br>
+          <h4>Part 2: Loading the Data</h4>
+          In the terminal where you've SSH'd into your EMR cluster, run <code>pySpark</code>. This is going to create an interactive Python session that's already connected to Spark, and also create a variable called <code>spark</code> that tells Python how to interact with Spark. We can use that variable, which is known as a <code>SparkSession</code> to read in our data like so:
+          <pre><code>df = spark.read.format('com.databricks.spark.csv')\<br>.options(header='true', inferschema='true').load(‘hdfs:///data/*.csv')</code></pre>
+        After this runs, we'll have our data in Spark and can start pre-processing it to be ready to do machine learning.<br>
+        <h4>Part 3: Preprocessing the Data</h4>
+        This data is cool, but it's not really ready for machine learning yet. If we take a look at <code>df.printSchema()</code> we'll note the same issues we saw in the previous blog post: several columns we expect to be numeric are being treated as strings. To rectify that, we need to tell Spark to convert those columns to floats. To do that, we can run:<pre><code>from pyspark.sql.types import FloatType
+df = df.withColumn('DepDelay', df['DepDelay'].cast(FloatType()))
+df = df.withColumn('DepTime', df['DepTime'].cast(FloatType()))</code></pre>i
+        Each of these lines tells Spark to create a new column with the following syntax<pre><code>df.withColumn(<b>new column name</b>, <b>what to fill the column with</b>)</code></pre>
+        In this case, we're replacing the old column with itself after converting everything in it to a Float number. Essentially, we're saying "take whatever is in this column, convert it to a number if you can, then put that back in the dataframe under the same name."<br><br>
+        That's the first major hurdle cleared. We can't do machine learning if we're treating numeric values as strings. Next, we need to select just a few of the columns out to use in our model, and also handle the fact that our conversion from string probably left a few spots in the data where there are now "NaNs" or "Not a numbers." NaNs happened when we asked Spark to translate strings to number because if Spark gets something like <code>three-thirty-seven</code> it can't figure out how to change that to a number and just replaces it with the Spark equivalent of, "You screwed up here" which is a NaN. For simplicity, let's just grab a small subset of information about the flight. Namely: the time of departure, the airport of departure, the airline company, and our target the departure delay. Then let's drop all of the rows with NaNs in any of those values.<pre><code>df = df.select(['Year','Month','DayofMonth','DayOfWeek',\
+        'DepTime','Origin','DepDelay','UniqueCarrier'])
+df = df.na.drop()</code></pre>
+        So that's another hurdle - we've handled the NaNs and also dropped the uninteresting columns. Now let's deal with the <code>Origin</code> and <code>UniqueCarrier</code> columns. Both of those columns are categorical. For <code>Origin</code> we have the airport code for each possible airport, so we can't just convert that to a number directly. Same thing for <code>UniqueCarrier</code>, it's the acronym for the company running the flight. We'll need to convert these into <a href="https://en.wikipedia.org/wiki/Dummy_variable_(statistics)">dummy columns</a>.<br><br>
+        In Spark, we can do this by first giving every unique value in the column a specific indext, then <a href="https://hackernoon.com/what-is-one-hot-encoding-why-and-when-do-you-have-to-use-it-e3c6186d008f">One Hot Encoding</a> those labels. Let's set up a labeler and an encoder for both of the categorical columns. <pre><code>from pyspark.ml.feature import StringIndexer, OneHotEncoder
+si = StringIndexer(inputCol='Origin', outputCol='OriginCode')
+ohe = OneHotEncoder(inputCol='OriginCode',outputCol='OriginVec')
+si2 = StringIndexer(inputCol='UniqueCarrier', outputCol='UniqueCarrierCode')
+ohe2 = OneHotEncoder(inputCol='UniqueCarrierCode',outputCol='UniqueCarrierVec')</code></pre>
+        These will take in the input column, which is the current name of the column, then make an output column called whatever we named the <code>outputCol</code>. I've set these up so we can chain them together to make a nice pipeline for data, by using the output name of the label step as the input for the encoding step.<br><br>
+        The last piece of the puzzle is where Spark will look a bit different for seasoned Python Machine Learner-ers. Spark expects that all of our input features are going to be packed up into a single vector for each row, all tucked into a single column. So instead of having:<pre>
+        -------------------------
+        | feat0 | feat1 | feat2 |
+        -------------------------
+        |  0.1  |  0.5  |  3.1  |
+        |  1.2  |  0.3  |  1.3  |
+        |       . . . . .       |
+        |  1.1  |  0.1  |  2.1  |
+        -------------------------</pre>
+        We actually need to convert this to a format that looks like:<pre>
+        -------------------------
+        |        features       |
+        -------------------------
+        |    [0.1, 0.5, 3.1]    |
+        |    [1.2, 0.3, 1.3]    |
+        |       . . . . .       |
+        |    [1.1, 0.1, 2.1]    |
+        -------------------------</pre>
+        Spark has a tool to do this called <code>VectorAssembler</code>. We're going to tell VectorAssembler what columns to pack together, and what to call the resulting column. Then we'll be ready to put all the pieces together into a pipeline.<pre><code>from pyspark.ml.feature import VectorAssembler
+va = VectorAssembler(inputCols=['Year','Month','DayofMonth','DayOfWeek','DepTime',\
+'OriginVec','UniqueCarrierVec'], outputCol='features')</code></pre>
+        Note that we're passing our encoded vectors as the input, not the raw <code>Origin</code> or <code>UniqueCarrier</code> columns!. Now we just need to get our model ready.<br>
+        <h4>Part 4: Preparing the ML Pipeline</h4>
+        Let's start with a pretty robust model that will be forgiving if we're a bit dumb with our settings: Random Forest Regression. <pre><code>from pyspark.ml.regression import RandomForestRegressor
+rf = RandomForestRegressor(featuresCol='features', labelCol='DepDelay', numTrees=10)</code></pre>
+        We'll start by telling it to use 10 trees. That's honestly not enough to do the job well, but like I said: tutorial. We just want to get a feel for how to do the job. So that's our last major component ready to go, now we just need to chain all the pieces together. Luckily for us, Spark has a tool for that called a Pipeline. We just need to create a pipeline object and tell it what order to go through all the tools we made. So for instance, we know we need to convert all the labels to encoded vectors before we move on to acually packing them into a "feature vector." So let's create a Pipeline and stack all the pieces together; then actually fit it to our dataframe. <pre><code>pipe = Pipeline(stages=[si,si2,ohe,ohe2,va,rf])
+model = pipe.fit(df)</pre></code>
+        That will take a bit to run, but when it finishes, we will have a trained model! We're now ready to see how our model performs.<br>
+        <h4>Part 5: Measuring Model Performance</h4>
+        To measure our model, we're going to rely on some built in regression measurement methods from Spark. The first thing we need to do though, is get our predictions together (note that by default, the predictions will be added to the dataframe under a new column called "prediction").<pre><code>predictions = model.transform(df)
+preds_vs_labels = predictions.select("prediction", "DepDelay")
+preds_vs_labels = preds_vs_labels.withColumn('label', preds_vs_labels['DepDelay'])</code></pre>
+        There's an extra step there where I convert <code>DepDelay</code> to be called <code>label</code>. That's a bit of house keeping because the Regression evaluator we're going to use looks for a column called 'label' by default. Now let's spawn a couple evaluators to measure Root Mean Squared Error (RMSE, which is the default result in teh evaluator) and R-squared (R2).<pre><code>from pyspark.ml.evaluation import RegressionEvaluator
+evaluator = RegressionEvaluator()
+evaluator2 = RegressionEvaluator(metricName='r2')</pre></code>
+        These are now waiting for us to put in a set of predictions and actual labels. Let's add those in and see what we get back out.<pre><code>print("R2 of predictions by model = " + str(evaluator2.evaluate(preds_vs_labels)))
+print("RMSE of predictions by model = " + str(evaluator.evaluate(preds_vs_labels)))</code></pre>
+        For me, when I run this on just a few of the years (1990 &amp; 1991), I get:<pre>R2 of predictions by model = 0.043218518010994966
+RMSE of predictions by model = 21.14839415926492</pre>
+        which basically tells me, your model is barely better than just always guessing the average delay of ~8 minutes... you're still going to have an average error of about +/-20 minutes.<br><br>
+        So yes, this model isn't good. However, this pipeline IS the machine learning pipeline for Spark. First you get your data and clean it up, then you vector assembler, then you pipeline everything together, fit, and evaluate. All the tools are here, and you can chain these together to work on any ML problem. You can also swap models and preprocessors in and out, as long as you maintain your pipeline. So go forth, and do ML at scale!<br>
+        <h1>IF YOU STARTED A CLUSTER FOR THIS TUTORIAL:<br> MAKE SURE YOU SHUT DOWN YOUR CLUSTER. THEY ARE EXPENSIVE</h1>
+         <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

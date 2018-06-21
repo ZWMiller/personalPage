@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Setting up a Spark Cluster on AWS
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Setting up a Spark Cluster on AWS</h3>
+          <small>June 13, 2018 - Spark, AWS, EMR</small>
+          <br>
+          <h4><a id="Part_1_Getting_a_Cluster_Ready_2"></a>Part 1: Getting a Cluster Ready</h4>
+          <p>Our goal for today is to build our own cluster with Spark. Fortunately for us,
+          Amazon has made this pretty simple. We’re going to get started by going to
+          AWS.</p>
+          <p>We’re interested in Amazon’s EMR service, which stands for Elastic Map Reduce.
+          We’re going to setup a super simple cluster to get going. To start, go to AWS
+          and find the EMR section. In that section, click <code>Create Cluster</code>.</p>
+          <p>This should take you to a page that looks like so:</p>
+          <p><img class='picsWide' src="./images/aws_emr_top.png" alt="EMR Part 1"></p>
+          <p>There’s quite a bit to digest here. So let’s talk about what EMR does. EMR is
+          going to spawn several EC2 instances, tie them all together so that they can
+          communicate, make one of them into a master node (NameNode) and the rest into
+          slave nodes (DataNodes/WorkerNodes). It will also install HDFS and whatever
+          tools you ask it to install (e.g. Spark, Hadoop, Hive, etc). We’re going to make a Spark cluster.</p>
+          <p>Let’s start by telling it what we want to name our cluster. Note that this
+          cluster is going to be very short-lived, so the name isn’t super important. EMR doesn’t allow you to persist your
+          clusters by stopping them. You ALWAYS terminate them. That’s actually a good
+          thing - you shouldn’t be spinning up a cluster until you’re done with your
+          basic development and code writing. You want to start with a small dataset,
+          get all your code working, then switch to the big dataset.</p>
+          <p>Once we pick a name, note that we also are creating an S3 bucket where the
+          cluster is going to save all of our log files and the like. We can also use
+          this to point to a specific S3 bucket if we want to make sure we know where
+          those files go.</p>
+          <p>Now we need to pick an install type. For simplicity, we’ll start by selecting
+          the bottom option which is:</p>
+          <p><code>Spark: Spark 2.3.0 on Hadoop 2.8.3 YARN with Ganglia 3.7.2 and Zeppelin 0.7.3</code></p>
+          <p>This will install HDFS, Spark, Hadoop, and YARN. Which we need to get our
+          cluster rolling. If we wanted to get fancy, we could use Zepplin which is like
+          Jupyter Notebooks, but for big data. We won’t get fancy today.</p>
+          <p>Note that if we wanted to be more selective, we could go to advanced options
+          and specifically ask the cluster to install certain tools instead of just
+          selecting a suite of tools that is pre-made.</p>
+          <p>Now we’re ready for the next stage which should look like this (scrolling down
+          the page):</p>
+          <p><img class='picsWide' src="./images/aws_emr_bottom.png" alt="EMR Part 2"></p>
+          <p>Here, we’re going to tell it how many nodes we want in our cluster. For now,
+          leave it at the default 3. The more nodes, the more expensive it is. We’re
+          just demo-ing things, so we don’t want expensive. We’ll get 1 master node, and
+          2 worker nodes.</p>
+          <p>Finally, you <strong>MUST SELECT A VALID AWS KEY</strong>. You should already have this
+          setup from your previous work with EC2. If you don’t do this, you won’t be
+          able to log in to your cluster. If for some reason you don’t have a key, see
+          here <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">AWS Key Pair
+            Creation</a>.</p>
+          <p>Once you’ve done that, click <code>Create Cluster</code> and go grab a coffee. It takes
+          EMR 10’s of minutes to get all of that setup for you. It’s doing a lot of
+          installing behind the scenes. You’ll know it’s ready when it says in green,
+          “Waiting” at the top.</p>
+          <p>We <strong>may</strong> need to do one more thing, which is to tell our cluster that people are
+          allowed to log-in. First, try the below code:</p>
+          <pre><code class="language-bash">ssh -i ~/.ssh/aws_key.pem hadoop@*IP ADDRESS HERE*
+          </code></pre>
+          <p>To get your IP Address, EMR has a little link right beside the <code>Master Public DNS</code> that if you click it
+          gives you an example code for how to log-in. The SSH command in there will
+          show you the IP Address for your cluster. You can see where that SSH link is
+          here (note, your cluster should not say terminated at the top, it should say
+          waiting).</p>
+          <p><img class='picsWide' src="./images/amazon_ssh.png" alt="EMR Part 3"></p>
+          <p>It will ask you if you want to connect to the remote server, type <code>yes</code> and
+          hit enter. If you’ve done everything right and your SSH is pre-configured, you should see a giant <code>EMR</code>
+          welcoming you to your new cluster.</p>
+          <p>If it just hangs there and nothing happens, we’ll need to update our SSH
+          rules. To do that, you’ll need to tell it that SSH is allowed. We
+          do that by going to the security group and adding an <code>Inbound Rule</code> that is an
+          <code>SSH</code> Rule on the default port (should be 22).  We’ll tell it that it’s
+          allowed from <code>Anywhere</code>. That’s not very secure, and if I was doing this for
+          production, I’d make sure to lock things down better than that. The security
+          groups can be accessed from the EC2 panel. There’s more information here:
+          <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security Groups in
+            EC2</a></p>
+          <p>Once you’ve set up the SSH rule, you should be able to run the above ssh code
+          and see the giant EMR welcoming you home.</p>
+          <h4><a id="Part_2_Actually_Using_your_Cluster_with_Spark_101"></a>Part 2: Actually Using your Cluster with Spark</h4>
+          <p>So at this point, we have a cluster with Spark and HDFS all ready to roll. We
+          just need to start using it. For today, we’re going to analyze data from all
+          the airline flights in the US from 1987-2008. That’s more than 122,000,000
+          flights. Our goal is to figure out the average lateness of departures and
+          arrivals, by year.</p>
+          <p>Our first step is to get our data on our cluster. The good news is that EMR
+          already installed HDFS (Hadoop Distributed File System) which allows us to
+          hand our data to the cluster and ask it to parallelize it for us. Let’s load
+          some data from an Amazon S3 bucket. To do that, we do the following:</p>
+          <pre><code class="language-bash">hadoop fs -mkdir /data
+hadoop fs -cp s3://dask-data/airline-data/*.csv /data/.
+hadoop fs -ls /data
+          </code></pre>
+          The first command tells HDFS to make a folder where we can mount our data. The
+          second command tells HDFS to go to the s3 bucket where our data lives and copy
+          every CSV there, storing it in the folder we just created. The final command
+          is going to show us the contents of the HDFS folder <code>data</code>. Note that HDFS is
+          a SEPARATE file system from your main Linux file system. You can’t just do:
+          <code>ls /data</code>, because we didn’t create a folder on Linux… we did it in HDFS.
+          <p>When I do the copy, I see an output that looks like so (note this also shows
+          the next step of getting into pyspark):</p>
+          <p><img class='picsWide' src="images/data_load_pyspark.png" alt="hadoop cp output"></p>
+          <p>Now we’re ready to analyze the data. Let’s jump into pySpark. As a sidenote,
+          pySpark is a wrapper around Spark that allows us to write Python like code
+          that converts to Scala behind the scenes and then runs on our data. To get
+          into pySpark just type:</p>
+          <pre><code class="language-bash">pyspark
+          </code></pre>
+          <p>PySpark itself looks just like an iPython notebook. Except you should see a
+          big ASCII Spark logo at the top. It also is pre-built with a thing called <code>sc</code>
+          which stands for <code>SparkContext</code>. It’s an object that ties Python into Spark.
+          We’ll use that to tell Python how to interact with Spark. Our first step is to
+          get SparkSQL setup so we can load our CSV files. To do that, we run:</p>
+          <pre><code class="language-python">sqlContext = SQLContext(sc)
+          </code></pre>
+          <p>Then we want to load our data from HDFS. So we tell it we want to open a CSV
+          and want Spark to try to guess what the schema is for our table. We can do
+          that with:</p>
+          <pre><code>sqlContext.read.format('com.databricks.spark.csv')\<br>.options(header='true', inferschema='true').load(‘hdfs:///data/*.csv')
+          </code></pre>
+          <p>This tells Spark to read in a csv format. It should expect a header and try to
+          guess what the data type is for every column. We tell it to load from the HDFS
+          file system, at the data folder (we created), and get all the CSVs there.</p>
+          <p>This will take a while and you should see a progress bar come up. Remember,
+          it’s loading the data from all over the cluster and keeping track of where it
+          lives. It’s also tying everything together in a big object so that I can
+          interact with a single dataframe. Let’s look at what it grabbed:</p>
+          <pre><code class="language-python">df.printSchema()
+          </code></pre>
+          <p>This will show us the below output, which shows us all the columns it found,
+          what they’re called, and what type it thinks they are.</p>
+          <p><img class='picsWide' src="images/spark_schema.png" alt="Spark Schema output"></p>
+          <p>Note that there are three columns of interest for us: ‘DepDelay’ which is the
+          Departure Delay, ‘ArrDelay’ the arrival delay, and ‘Year’ the year in which
+          the flight occurred. Also note… that we have a problem: the delays are
+          currently strings, so we can’t do any mean calculations yet. We’ll need to handle that.</p>
+          <p>I’m going to assume you’re familiar with Pandas dataframes/SQL stylings from
+          here on out. Let’s do a quick pass at analysis. First, we’ll grab our
+          dataframe and ask it to convert the delay into a float (FloatType()), then
+          we’ll grab just the columns we’re interested in, then we’ll group by the year,
+          then we’ll get the mean value for the delay by year, and show it.</p>
+          <pre><code class="language-python"><span class="hljs-keyword">from</span> pyspark.sql.types <span class="hljs-keyword">import</span> FloatType
+df.withColumn(<span class="hljs-string">"DepDelay"</span>, df[<span class="hljs-string">"DepDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'DepDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)
+          </code></pre>
+          <p>The output of that is here:</p>
+          <p><img class='picsWide' src="images/departure_delays.png" alt="Departure Delay by Year"></p>
+          <p>Now let’s check about arrival delays:</p>
+          <pre><code class="language-python">df[<span class="hljs-string">"ArrDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'ArrDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)
+          </code></pre>
+          <p>Which gives us:</p>
+          <p><img class='picsWide' src="images/arrival_delays.png" alt="Arrival Delay by Year"></p>
+          <p>Great, those are some neat EDA reuslts. Now you’re ready to knock yourself out playing around with Spark!</p>
+          <h2><a id="Cleaning_up_209"></a>Cleaning up</h2>
+          <p>Once you’re done playing with the data, it’s time to clean up. First, type
+          <code>quit()</code> to leave PySpark.</p>
+          <p>Note that EMR does not allow us to “save” our cluster. We can’t just shut it
+          down until later. We have to fully terminate it and erase everything on the
+          cluster (Amazon doesn’t want you claiming a bunch of computers and having them
+          hangout waiting on you to use them). So be sure you’re done with your cluster
+          before doing the next step.</p>
+          <p>Type <code>exit</code> to leave the cluster. This closes your SSH connection. Finally, go
+          back to your AWS page, and find the active EMR cluster. Click <code>TERMINATE</code>.
+          This closes up shop, deletes all the data on HDFS, and released the computers
+          back to Amazon to be farmed out again.</p>
+          <h1>MAKE SURE YOU SHUT DOWN YOUR CLUSTER. THEY ARE EXPENSIVE</h1>
+          <p><img class='picsWide' src="./images/amazon_ssh.png" alt="EMR Part 3"></p>
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>
