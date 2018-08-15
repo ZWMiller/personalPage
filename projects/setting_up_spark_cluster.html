@@ -47,7 +47,8 @@
           <br>
           <h3>Setting up a Spark Cluster on AWS</h3>
           <small>June 13, 2018 - Spark, AWS, EMR</small>
-          <br>
+          <br><br>
+          <i><small>This is part 1 in a series exploring Spark. <a href="./spark_ml_example.html">Machine Learning with Spark</a> is part 2. Part 3 is <a href="./spark_ml_example_part2.html">Nicer Machine Learning with Spark</a></small><br></i>
           <h4><a id="Part_1_Getting_a_Cluster_Ready_2"></a>Part 1: Getting a Cluster Ready</h4>
           <p>Our goal for today is to build our own cluster with Spark. Fortunately for us,
           Amazon has made this pretty simple. We’re going to get started by going to
@@ -133,8 +134,7 @@
           some data from an Amazon S3 bucket. To do that, we do the following:</p>
           <pre><code class="language-bash">hadoop fs -mkdir /data
 hadoop fs -cp s3://dask-data/airline-data/*.csv /data/.
-hadoop fs -ls /data
-          </code></pre>
+hadoop fs -ls /data</code></pre>
           The first command tells HDFS to make a folder where we can mount our data. The
           second command tells HDFS to go to the s3 bucket where our data lives and copy
           every CSV there, storing it in the folder we just created. The final command
@@ -148,20 +148,17 @@ hadoop fs -ls /data
           pySpark is a wrapper around Spark that allows us to write Python like code
           that converts to Scala behind the scenes and then runs on our data. To get
           into pySpark just type:</p>
-          <pre><code class="language-bash">pyspark
-          </code></pre>
+          <pre><code class="language-bash">pyspark</code></pre>
           <p>PySpark itself looks just like an iPython notebook. Except you should see a
           big ASCII Spark logo at the top. It also is pre-built with a thing called <code>sc</code>
           which stands for <code>SparkContext</code>. It’s an object that ties Python into Spark.
           We’ll use that to tell Python how to interact with Spark. Our first step is to
           get SparkSQL setup so we can load our CSV files. To do that, we run:</p>
-          <pre><code class="language-python">sqlContext = SQLContext(sc)
-          </code></pre>
+          <pre><code class="language-python">sqlContext = SQLContext(sc)</code></pre>
           <p>Then we want to load our data from HDFS. So we tell it we want to open a CSV
           and want Spark to try to guess what the schema is for our table. We can do
           that with:</p>
-          <pre><code>sqlContext.read.format('com.databricks.spark.csv')\<br>.options(header='true', inferschema='true').load(‘hdfs:///data/*.csv')
-          </code></pre>
+          <pre><code>df = sqlContext.read.format('com.databricks.spark.csv')\<br>.options(header='true', inferschema='true').load('hdfs:///data/*.csv')</code></pre>
           <p>This tells Spark to read in a csv format. It should expect a header and try to
           guess what the data type is for every column. We tell it to load from the HDFS
           file system, at the data folder (we created), and get all the CSVs there.</p>
@@ -169,8 +166,7 @@ hadoop fs -ls /data
           it’s loading the data from all over the cluster and keeping track of where it
           lives. It’s also tying everything together in a big object so that I can
           interact with a single dataframe. Let’s look at what it grabbed:</p>
-          <pre><code class="language-python">df.printSchema()
-          </code></pre>
+          <pre><code class="language-python">df.printSchema()</code></pre>
           <p>This will show us the below output, which shows us all the columns it found,
           what they’re called, and what type it thinks they are.</p>
           <p><img class='picsWide' src="images/spark_schema.png" alt="Spark Schema output"></p>
@@ -184,13 +180,11 @@ hadoop fs -ls /data
           we’ll grab just the columns we’re interested in, then we’ll group by the year,
           then we’ll get the mean value for the delay by year, and show it.</p>
           <pre><code class="language-python"><span class="hljs-keyword">from</span> pyspark.sql.types <span class="hljs-keyword">import</span> FloatType
-df.withColumn(<span class="hljs-string">"DepDelay"</span>, df[<span class="hljs-string">"DepDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'DepDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)
-          </code></pre>
+df.withColumn(<span class="hljs-string">"DepDelay"</span>, df[<span class="hljs-string">"DepDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'DepDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)</code></pre>
           <p>The output of that is here:</p>
           <p><img class='picsWide' src="images/departure_delays.png" alt="Departure Delay by Year"></p>
           <p>Now let’s check about arrival delays:</p>
-          <pre><code class="language-python">df[<span class="hljs-string">"ArrDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'ArrDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)
-          </code></pre>
+          <pre><code class="language-python">df.withColumn(<span class="hljs-string">"ArrDelay"</span>, df[<span class="hljs-string">"ArrDelay"</span>].cast(FloatType()))\<br>.select([<span class="hljs-string">'Year'</span>,<span class="hljs-string">'ArrDelay'</span>]).groupby(<span class="hljs-string">'Year'</span>).mean().orderBy(<span class="hljs-string">'Year'</span>).show(<span class="hljs-number">50</span>)</code></pre>
           <p>Which gives us:</p>
           <p><img class='picsWide' src="images/arrival_delays.png" alt="Arrival Delay by Year"></p>
           <p>Great, those are some neat EDA reuslts. Now you’re ready to knock yourself out playing around with Spark!</p>
@@ -208,6 +202,7 @@ df.withColumn(<span class="hljs-string">"DepDelay"</span>, df[<span class="hljs-
           back to Amazon to be farmed out again.</p>
           <h1>MAKE SURE YOU SHUT DOWN YOUR CLUSTER. THEY ARE EXPENSIVE</h1>
           <p><img class='picsWide' src="./images/amazon_ssh.png" alt="EMR Part 3"></p>
+          <i><small>Thanks to Dave Herman for catching some of my errors! Updated 6/25/18</small></i><br><br>
           <span class="clear"></span>
         </main>
         <footer>

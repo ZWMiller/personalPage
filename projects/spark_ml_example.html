@@ -47,7 +47,9 @@
           <br>
           <h3>Machine Learning with Spark</h3>
           <small>June 21, 2018 - Spark, AWS, EMR</small>
-          <br>
+          <br><br>
+          <i><small>This is part 2 in a series exploring Spark. <a href="./setting_up_spark_cluster.html">Setting up a Spark Cluster on AWS</a> is part 1. Part 3 is <a href="./spark_ml_example_part2.html">Nicer Machine Learning with Spark</a></small><br></i>
+        
           <h4>Part 1: Getting Ready to do Work</h4>
           This tutorial will assume that you already have Spark installed and the dataset of all airline flights between 1987-2007 loaded into HDFS. If that's not true, you can go to my previous post <a href="setting_up_spark_cluster.html">Setting Up a Spark Cluster</a> to build your own Spark Cluster.<br><br>
           Let's also discuss the problem we're going to try to solve. Our goal is to build a machine learning model that predicts how much a flight will be delayed by, given the airport, month, day of the week, etc. Let's start out by noting this is almost certainly not going to work well - if it was that predictable, people would already be exploiting that when booking flights. Instead, we're going to use this as an excuse to learn the syntax of doing machine learning in Spark.<br>
@@ -96,7 +98,8 @@ va = VectorAssembler(inputCols=['Year','Month','DayofMonth','DayOfWeek','DepTime
         <h4>Part 4: Preparing the ML Pipeline</h4>
         Let's start with a pretty robust model that will be forgiving if we're a bit dumb with our settings: Random Forest Regression. <pre><code>from pyspark.ml.regression import RandomForestRegressor
 rf = RandomForestRegressor(featuresCol='features', labelCol='DepDelay', numTrees=10)</code></pre>
-        We'll start by telling it to use 10 trees. That's honestly not enough to do the job well, but like I said: tutorial. We just want to get a feel for how to do the job. So that's our last major component ready to go, now we just need to chain all the pieces together. Luckily for us, Spark has a tool for that called a Pipeline. We just need to create a pipeline object and tell it what order to go through all the tools we made. So for instance, we know we need to convert all the labels to encoded vectors before we move on to acually packing them into a "feature vector." So let's create a Pipeline and stack all the pieces together; then actually fit it to our dataframe. <pre><code>pipe = Pipeline(stages=[si,si2,ohe,ohe2,va,rf])
+        We'll start by telling it to use 10 trees. That's honestly not enough to do the job well, but like I said: tutorial. We just want to get a feel for how to do the job. So that's our last major component ready to go, now we just need to chain all the pieces together. Luckily for us, Spark has a tool for that called a Pipeline. We just need to create a pipeline object and tell it what order to go through all the tools we made. So for instance, we know we need to convert all the labels to encoded vectors before we move on to acually packing them into a "feature vector." So let's create a Pipeline and stack all the pieces together; then actually fit it to our dataframe. <pre><code>from pyspark.ml import Pipeline
+pipe = Pipeline(stages=[si,si2,ohe,ohe2,va,rf])
 model = pipe.fit(df)</pre></code>
         That will take a bit to run, but when it finishes, we will have a trained model! We're now ready to see how our model performs.<br>
         <h4>Part 5: Measuring Model Performance</h4>
@@ -110,7 +113,7 @@ evaluator2 = RegressionEvaluator(metricName='r2')</pre></code>
 print("RMSE of predictions by model = " + str(evaluator.evaluate(preds_vs_labels)))</code></pre>
         For me, when I run this on just a few of the years (1990 &amp; 1991), I get:<pre>R2 of predictions by model = 0.043218518010994966
 RMSE of predictions by model = 21.14839415926492</pre>
-        which basically tells me, your model is barely better than just always guessing the average delay of ~8 minutes... you're still going to have an average error of about +/-20 minutes.<br><br>
+        which basically tells me, your model is no better than just always guessing the average delay of ~8 minutes... you're still going to have an average error of about +/-20 minutes.<br><br>
         So yes, this model isn't good. However, this pipeline IS the machine learning pipeline for Spark. First you get your data and clean it up, then you vector assembler, then you pipeline everything together, fit, and evaluate. All the tools are here, and you can chain these together to work on any ML problem. You can also swap models and preprocessors in and out, as long as you maintain your pipeline. So go forth, and do ML at scale!<br>
         <h1>IF YOU STARTED A CLUSTER FOR THIS TUTORIAL:<br> MAKE SURE YOU SHUT DOWN YOUR CLUSTER. THEY ARE EXPENSIVE</h1>
          <span class="clear"></span>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Nicer Machine Learning with Spark - RFormula
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Nicer Machine Learning with Spark - RFormula</h3>
+          <small>June 22, 2018 - Spark, AWS, EMR</small>
+          <br><br>
+          <i><small>This is part 3 in a series exploring Spark. Part 1 is <a href="setting_up_spark_cluster.html">Setting up a Spark Cluster on AWS</a>. <a href="./spark_ml_example.html">Machine Learning with Spark</a> is part 2.</small><br></i>
+          <h4>Getting Started with RFormula</h4>
+          This tutorial will assume you've been following along with the process here: <a href="spark_ml_example.html">Machine Learning with Spark</a><br><br>
+          When we last left off, we had just finished running a random forest model on a bunch of data with SparkML. It wasn't a great model, but we'd done quite a bit of cleaning and processing to get there. In one section, we got our data ready to be passed into the model by doing this:<pre><code>from pyspark.ml.feature import StringIndexer, OneHotEncoder
+si = StringIndexer(inputCol='Origin', outputCol='OriginCode')
+ohe = OneHotEncoder(inputCol='OriginCode',outputCol='OriginVec')
+si2 = StringIndexer(inputCol='UniqueCarrier', outputCol='UniqueCarrierCode')
+ohe2 = OneHotEncoder(inputCol='UniqueCarrierCode',outputCol='UniqueCarrierVec')
+          
+from pyspark.ml.feature import VectorAssembler
+va = VectorAssembler(inputCols=['Year','Month','DayofMonth','DayOfWeek','DepTime',\
+'OriginVec','UniqueCarrierVec'], outputCol='features')</code></pre>
+          All of that was necessary to make sure that the data had been properly split into categories, indexed, and then each category had been converted into a stand-alone column so we could work with string data. Today, we're going to focus on a nicer way to handle all that without having to manually dive in and change each column one at a time with labels and one hot encoding.<br><br>
+          There's a tool in Spark 2.0 called <code>RFormula</code>. It allows us to specify the relationship we want to find between our columns, and then behind the scenes it does all the encoding, labeling, and cleaning up for us. It's a great tool in the sense that it does a lot of the heavy lifting for us, at very little cost. So let's see how we can modify our code to work with <code>RForumla</code>. We can start by replacing all of the above code with the following lines:<pre><code>from pyspark.ml.feature import RFormula
+from pyspark.ml.regression import RandomForestRegressor
+
+rf = RandomForestRegressor(featuresCol='features', labelCol='label', numTrees=10)
+
+transformer = RFormula(formula="DepDelay ~ .", featuresCol='features', labelCol='label')
+output = transformer.fit(df).transform(df)
+model = rf.fit(output)</pre></code>
+          Behind the scenes, RFormula says, "oh hey, they want to create a relationship between <code>DepDelay</code> and all of the other variables (the <code>.</code> stands for "everything else" here). Then it says, I should make sure I make a column called features that is the "everything else" and a column called "label" that is "DepDelay". Then it DOES that. We don't have to specify anything, it makes assumptions about how to handle categorical data, does the one hot encoding, everything. At that point, we can just run out data through like normal! The only other change we need to make is to change our prediction code to use the "output" dataframe like so:<pre><code>predictions = model.transform(output)</pre></code>
+          Everything else stays the same! We load the data like before, we do regression metrics like before... we just replaced all that manual processing with Spark's automated processing methods under RFormula. It's a great tool for making your code more readable, without sacrificing much (if any) speed. I also get the same answers (within tolerance of randomization) as before for modeling outputs.<br>
+        <h1>IF YOU STARTED A CLUSTER FOR THIS TUTORIAL:<br> MAKE SURE YOU SHUT DOWN YOUR CLUSTER. THEY ARE EXPENSIVE</h1>
+         <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

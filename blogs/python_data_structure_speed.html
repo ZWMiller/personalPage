@@ -48,6 +48,7 @@
           <h3>Are Tuples Faster than Lists?</h3>
           <small>Nov. 30, 2017 - Python</small>
           <br><br>
+          <small><i>A follow up to this post testing numpy vectorization speed is <a href="why_numpy_is_so_great.html">here</a>.</i></small><br><br>
           There are several myths flying around the Python-o-sphere that I hear repeated all the time. One of the main ones, that seems to be very commonly believed, is that tuples are inherently faster than lists. It has a ring of truth to it: tuples are immutable and less flexible than lists, so they should be faster. On top of this, the way the memory is allocated for tuples is generally in large blocks with very low overhead, since they are immutable. For lists, Python appends small memory blocks in a willy-nilly sort of way - so why wouldn't consecutive memory be faster? On the other hand, I haven't noticed major upside in speed from using tuples in past projects, so maybe this isn't true? The only way to know is to test. Alongside this, another common myth I want to investigate is that we should just "turn any list of common types into arrays - it's SOOO much faster." Again, I wasn't sure... so I figured, why not run some tests? Let's start by getting some data to play with.<br><br>
           <script src="http://gist-it.appspot.com/github/ZWMiller/personalPage/blob/master/blogs/python_speed_testing_gist.py?slice=0:9"></script>
           <div class="code">

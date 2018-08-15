@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      Why numpy is so great
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Why <code>numpy</code> is So Great</h3>
+          <small>July 5, 2018 - Python</small>
+          <br><br>
+          I've not been subtle about my love for <code>numpy</code>. I dedicated an entire blog post to how cool they are while talking about <a href="python_data_structure_speed.html">Python Data Structures</a>. However, I'd like to once again shout my love for <code>numpy</code> into the ether. Today's topic, vectorization of operations.<br>
+          <h4>Setting up the Experiment</h4>
+          To frame this discussion, let's look at a single task: trying to calculate the distance between one vector and a bunch of other vectors in a two dimensional space. This sounds a bit silly, but it's a common machine learning task so it's actually a pretty decent benchmark. Let's start by generating some data, specifically one new vector and an array full of 100 vectors to compare to.<pre><code>import numpy as np
+new_vec = np.array([1,2])
+all_vecs = np.random.uniform(size=(100,2))</code></pre>
+          To calculate this normally, we would want to use the Euclidean distance formula $$ d = \sqrt{(x1-x2)^2 + (y1-y2)^2}$$ In code form (without using arrays), we could do something like<pre><code>x = all_vecs[0]
+np.sqrt((new_vec[0] - x[0])**2 + (new_vec[1] - x[1])**2)</code></pre>
+          So having done that, we now have the distance between our new vector <code>new_vec</code> and the first of our <code>all_vec</code> comparison vectors. To scale this to all 100 vectors, we'd need to tuck that bit of code into a for loop. Let's take a look at that<pre><code>output = []
+for x in all_vecs:
+    dist = np.sqrt((new_vec[0] - x[0])**2 + (new_vec[1] - x[1])**2)
+    output.append(dist)</pre></code>
+          That's all we need to do the job if we don't want to use arrays. For any number of vectors in <code>all_vecs</code>, we can loop through and calculate the distance. It's not an elegant solution, but it does the job. Now let's see how we'd do the same thing in <code>numpy</code>. To begin with, let's remember that <code>numpy</code> does broadcasting. For example:<pre><code>a = np.array([1,2])
+b = np.array([[1,2],[3,4],[5,6]])
+print(a + b)
+
+> [[2,4],[4,6],[6,8]]</pre></code>
+          Note that it already realizes that these are vectors and does the addition row-to-row, so we can use that to do the vector subtraction, then all we need to do is square some things, sum the columns, and square root. Let's see that in action:<pre><code>output = np.sqrt(np.sum((all_vecs - new_vec)**2, axis=1))</pre></code>
+          The only fancy thing there is the <code>axis=1</code>, which tells <code>numpy</code> to sum along rows instead of columns. That's it though, <code>numpy</code> handles all the operations under-the-hood otherwise. Woo!<br><br>
+          <h4>Testing the Speed</h4>
+          So now that we know how to do this in both methods (regular Python vs <code>numpy</code>), let's see how fast each method is. In particular, I'm interested in how this scales with data size, so we'll generate larger and larger versions of <code>all_vecs</code>, starting with a few 100 vectors and ending with nearly 1,000,000 vectors. I'm going to use the <code>time</code> module to track how long each operation takes. Here's the code to do this with regular Python.<pre><code>import time
+list_timing = []
+for num_vecs in np.linspace(10,1000000,200):
+    all_vecs = np.random.uniform(size=(int(num_vecs),2)).tolist()
+    # To measure when we start our process
+    start = time.time()
+    
+    # The actual process
+    output = []
+    for x in all_vecs:
+        dist = np.sqrt((new_vec[0] - x[0])**2 + (new_vec[1] - x[1])**2)
+        output.append(dist)
+        
+    # Figure out when the process was done and 
+    # keep track of how long it took
+    end = time.time()
+    list_timing.append((num_vecs, end - start))</pre></code>
+
+          Now the equivalent code, but in <code>numpy</code>:<pre><code>array_timing = []
+for num_vecs in np.linspace(10,1000000,200):
+    all_vecs = np.random.uniform(size=(int(num_vecs),2))
+    # To measure when we start our process
+    start = time.time()
+    
+    # The actual process
+    output = np.sqrt(np.sum((all_vecs - new_vec)**2, axis=1))
+        
+    # Figure out when the process was done and 
+    # keep track of how long it took
+    end = time.time()
+    array_timing.append((num_vecs, end - start))</pre></code>
+          Now let's plot the outputs on a graph together to see how they scale. (The <code>numpy</code> version is called "Arrays" on the graph).
+          <img src="images/numpy_vectorization_linear.png" alt="linear scale comparison" class="picsWide">
+          That's just wow. We can see that arrays are WAY faster (lower time is faster) than the list method. Note that some of those spikes are pretty large, but still within expectation of fluctuations due to computer hardware - so the trend overall is more imporatnt. It's hard to see the actual behavior of the array version though, so let's look at the same plot, but with the y-axis set to a logarithmic scale.
+          <img src="images/numpy_vectorization_log.png" alt="log scale comparison" class="picsWide">
+          <code>numpy</code> is legendary. I love it so much. In this case, you can see that it still scales with the data in roughly the same manner as the Python method, just 2 orders of magnitude faster! That's a beautiful result that further demonstrates just how powerful numpy can be. <br><br>
+          <code>------</code><br>
+          <small>Code for making the plots (comment out the yscale line for linear):<pre><code>plt.figure(dpi=150)
+list_X, list_times = zip(*list_timing)
+array_X, array_times = zip(*array_timing)
+
+plt.plot(list_X, list_times, 'r', label="Lists")
+plt.plot(array_X, array_times,'b', label='Arrays')
+plt.yscale('log')
+plt.xlabel("Number of Vectors")
+plt.ylabel("Computation Time")
+plt.legend();</pre></code></small>
+          <code>------</code><br>
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2017 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>

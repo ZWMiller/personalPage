@@ -234,6 +234,11 @@ th {
   color: white;
 }
 
+
+code {
+  background-color:#EFEFEF
+}
+
 .code {
   width=60%;
   font-family:"Courier New",monospace;
