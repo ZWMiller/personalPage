@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+        NLP Pipeline - Controlling NLP with a Class
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>NLP Pipeline Management - Taking the Pains out of NLP</h3>
+          <small>Aug 18, 2018 - Python</small>
+            <br><br>
+            <small><i>
+                This post will discuss managing natural language processing. However, it assumes
+                you already have some knowledge about what that is and how it works. I plan to write an "intro to NLP"
+                someday, but it is not this day. You can find an intro
+                <a href="https://blog.algorithmia.com/introduction-natural-language-processing-nlp/">here.</a></i>
+            </small>
+          <br><br>
+            The most frustrating part of Natural Language Processing (NLP) is dealing with all the various "valid"
+            combinations that can occur. As an example, I might want to try cleaning the text with a stemmer and a
+            lemmatizer - all while still tying to a vectorizer that works by counting up words. Well, that's two
+            possible combinations of objects that I need to create, manage, train, and save for later. If I then want
+            to try both of those combinations with a vectorizer that scales by word occurrence, that's now four
+            combinations. If I then add in trying different topic reducers like LDA, LSA, and NMF, I'm up to 12 total
+            valid combinations that I need to try. If I then combine that with 6 different models... 72 combinations.
+            It can become infuriating quite quickly.<br>
+
+            <h4>A pipe for cleaning text data</h4>
+
+            To fight this issue, I've developed a Python tool that manages the pipeline for a user. The user just needs
+            to open a pipeline object, hand it the various tools that are apply to this specific pipeline, and then
+            watch it go. Let's look at an example, then we'll examine the code.
+            <div style="background: #EFEFEF; top-padding: 5px;">
+            <pre><code><small>from nlp_preprocessor import nlp_preprocessor
+
+corpus = ['BOB the builder', 'is a strange', 'caRtoon type thing']
+
+nlp = nlp_preprocessor(vectorizer=CountVectorizer(), stemmer=PorterStemmer().stem)
+nlp.fit(corpus)
+nlp.transform(corpus).toarray()
+---
+> array([[1, 1, 0, 0, 0, 1, 0, 0],
+         [0, 0, 0, 1, 1, 0, 0, 0],
+         [0, 0, 1, 0, 0, 0, 1, 1]])</small></code></pre></div>
+
+            The <code>nlp_preprocessor</code> class allows the user to add a particular vectorizer, cleaning function,
+            tokenizer, or stemmer and then the user just needs to call fit or predict, like a normal SkLearn model.
+            Let's examine how this works by looking at the code. (Full code available here:
+            <a href="https://github.com/ZWMiller/nlp_pipe_manager">GitHub Project</a>). Let's start by looking at the
+            class definition.
+            <div style="background: #EFEFEF; top-padding: 5px;">
+            <pre><code><small>class nlp_preprocessor(nlpipe):
+
+    def __init__(self, vectorizer=CountVectorizer(), tokenizer=None,
+                 cleaning_function=None, stemmer=None):
+        """
+        A class for pipelining our data in NLP problems. The user provides a series of
+        tools, and this class manages all of the training, transforming, and modification
+        of the text data.
+        ---
+        Inputs:
+        vectorizer: the model to use for vectorization of text data
+        tokenizer: The tokenizer to use, if none defaults to split on spaces
+        cleaning_function: how to clean the data, if None, defaults to the in built class
+        stemmer: a function that returns a stemmed version of a token. For NLTK, this
+        means getting a stemmer class, then providing the stemming function underneath it.
+        """
+        if not tokenizer:
+            tokenizer = self.splitter
+        if not cleaning_function:
+            cleaning_function = self.clean_text
+        self.stemmer = stemmer
+        self.tokenizer = tokenizer
+        self.cleaning_function = cleaning_function
+        self.vectorizer = vectorizer
+        self._is_fit = False</small></code></pre></div>
+
+            This part of the class allows the user to add their pieces upon initialization. It does a few extra things.
+            First, if the user doesn't provide a cleaning function or a tokenizer, it defaults to some simplistic ones
+            that are build into the class. Otherwise, it basically just sets up some attributes for later usage.
+            You mave noticed this class also inherits from another class called <code>nlpipe</code>... we'll come back
+            to that later when we discuss saving models. Next let's look at the default functions for cleaning and
+            tokenizing.<div style="background: #EFEFEF; top-padding: 5px;">
+            <pre><code><small>    def splitter(self, text):
+        """
+        Default tokenizer that splits on spaces naively
+        """
+        return text.split(' ')
+
+    def clean_text(self, text, tokenizer, stemmer):
+        """
+        A naive function to lowercase all works can clean them quickly.
+        This is the default behavior if no other cleaning function is specified
+        """
+        cleaned_text = []
+        for post in text:
+            cleaned_words = []
+            for word in tokenizer(post):
+                low_word = word.lower()
+                if stemmer:
+                    low_word = stemmer(low_word)
+                cleaned_words.append(low_word)
+            cleaned_text.append(' '.join(cleaned_words))
+        return cleaned_text</small></code></pre></div>
+            These functions should look pretty normal to anyone with some background in NLP. The cleaner just goes word
+            by word and lowercases everything and chops of endings like 'ing' or 'ed' if a stemmer is used. These are
+            pretty naive and inoffensive in-terms of "aggressive text cleaning" so a user would do well to provide
+            their own functions. For now though, the defaults are there to make the class work even in the simplest
+            cases. Next, we need to figure out how we actually make it do our cleaning and transforming. To do that,
+            we'll write a fit function which will clean the text and then teach the vectorizer how to behave. Then
+            we'll write a transform function that can take new text and convert it into vector space.
+<div style="background: #EFEFEF; top-padding: 5px;"><pre><code><small>    def fit(self, text):
+        """
+        Cleans the data and then fits the vectorizer with
+        the user provided text
+        """
+        clean_text = self.cleaning_function(text, self.tokenizer, self.stemmer)
+        self.vectorizer.fit(clean_text)
+        self._is_fit = True
+
+    def transform(self, text, return_clean_text=False):
+        """
+        Cleans any provided data and then transforms the data into
+        a vectorized format based on the fit function.
+        If return_clean_text is set to True, it returns the cleaned
+        form of the text. If it's set to False, it returns the
+        vectorized form of the data.
+        """
+        if not self._is_fit:
+            raise ValueError("Must fit the models before transforming!")
+        clean_text = self.cleaning_function(text, self.tokenizer, self.stemmer)
+        if return_clean_text:
+            return clean_text
+                return self.vectorizer.transform(clean_text)</small></code></pre></div>
+
+            Nothing super fancy there, just grabbing the pieces we've already built and stacking them into a single
+            pipeline for the data to flow through. We're in pretty good shape now. We have the ability to create a bunch
+            of complicated NLP pipelines by just invoking a class and sticking in the pieces we want. The only other
+            behavior that might be handy is the ability to save and load these pipelines without having to re-train.
+            <br><br>
+            To handle that, let's look at our parent class called <code>nlpipe</code>.
+            <div style="background: #EFEFEF; top-padding: 5px;"><pre><code><small>import pickle
+
+class nlpipe:
+
+    def __init__(self):
+        """
+        Empty parent class for nlp pipelines that contains
+        shared file i/o that happens in every class.
+        """
+        pass
+
+    def save_pipe(self, filename):
+        """
+        Writes the attributes of the pipeline to a file
+        allowing a pipeline to be loaded later with the
+        pre-trained pieces in place.
+        """
+        if type(filename) != str:
+            raise TypeError("filename must be a string")
+        pickle.dump(self.__dict__, open(filename+".mdl",'wb'))
+
+    def load_pipe(self, filename):
+        """
+        Writes the attributes of the pipeline to a file
+        allowing a pipeline to be loaded later with the
+        pre-trained pieces in place.
+        """
+        if type(filename) != str:
+            raise TypeError("filename must be a string")
+        if filename[-4:] != '.mdl':
+            filename += '.mdl'
+            self.__dict__ = pickle.load(open(filename,'rb'))</small></code></pre></div>
+            This class is basically just for file I/O. It has two methods, a save and a load. For both of these methods
+            we use the nice behavior of python classes of storing all the attributes in a class in a single dictionary.
+            This is called <code>__dict__</code>. So if we save the <code>__dict__</code>, to disk, we can re-load it
+            at any time in the future. That's what these two methods do, using the nice pickle library from python to
+            store the attributes as binary files. This means we can store the attributes in their trained form as well.
+            <br><br>
+            All together, that makes up our full data management pipeline. It's great for keeping the code I actually
+            need very simple. No complicated functions, no tuples storing tons of bits and pieces. Just a class that
+            has the whole pipeline hidden in a single API call to fit or predict.<br>
+            <h4>Adding a Model to the Mix</h4>
+
+            You may, quite fairly be wondering where the machine learning is. Fear not, we just didn't build it into
+            the cleaning pipe directly so that we can attach whatever machine learning model we want later. Let's write
+            another class that expects us to provide a pipeline object and then can do supervised learning. Here's
+            a full example of the code for that, which I'll discuss below.
+
+            <div style="background: #EFEFEF; top-padding: 5px;"><pre><code><small>from nlp_preprocessor import nlp_preprocessor
+from nlpipe import nlpipe
+
+class supervised_nlp(nlpipe):
+
+    def __init__(self, model, preprocessing_pipeline=None):
+        """
+        A pipeline for doing supervised nlp. Expects a model and creates
+        a preprocessing pipeline if one isn't provided.
+        """
+        self.model = model
+        self._is_fit = False
+        if not preprocessing_pipeline:
+            self.preprocessor = nlp_preprocessor()
+        else:
+            self.preprocessor = preprocessing_pipeline
+
+    def fit(self, X, y):
+        """
+        Trains the vectorizer and model together using the
+        users input training data.
+        """
+        self.preprocessor.fit(X)
+        train_data = self.preprocessor.transform(X)
+        self.model.fit(train_data, y)
+        self._is_fit = True
+
+    def predict(self, X):
+        """
+        Makes a prediction on the data provided by the users using the
+        preprocessing pipeline and provided model.
+        """
+        if not self._is_fit:
+            raise ValueError("Must fit the models before transforming!")
+        test_data = self.preprocessor.transform(X)
+        preds = self.model.predict(test_data)
+        return preds
+
+    def score(self, X, y):
+        """
+        Returns the accuracy for the model after using the trained
+        preprocessing pipeline to prepare the data.
+        """
+        test_data = self.preprocessor.transform(X)
+        return self.model.score(test_data, y)</small></code></pre></div>
+
+            This wraps around the processing pipeline by expecting a <code>nlp_preprocessor</code> object as an input.
+            Once we have that, we just write some quick fit, predict, and scoring methods that wrap around the normal
+            sklearn model API. Our new methods just make sure we process the data with our pipeline before handing it
+            off to SkLearn for machine learning. After that, we can just let SkLearn do the haecy lifting for us.<br><br>
+
+            If this sounds like it may be of use to you, you can find the full implementation of a topic modeler and
+            a supervised learning class on my <a href="https://github.com/ZWMiller/nlp_pipe_manager">GitHub</a>. There
+            isn't currently a method for pip install, so you can just copy the code to add it to your workflow.<br><br>
+
+            Hopefully that will help make your NLP more managable. Good luck!<br><br>
+
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>
