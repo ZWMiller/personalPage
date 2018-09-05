@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+        Who's Driving the Twitter Discussion? - Social Network Analysis
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>Who's Driving the Twitter Discussion? - Social Network Analysis</h3>
+          <small>Sep 4, 2018 - Python</small>
+          <br><br>
+
+            Twitter is a weird platform. Just, in general. The average Jill gets just as much volume as a world renowned
+            expert. This is seen often in political discussions, and it becomes hard to tell who is driving conversations
+            versus who is just reacting to the conversations that are happening. On top of this weirdness, there's also
+            the inherent weirdness of the "retweet." It's essentially a way for someone to agree with a thought without
+            having to explicitly do anything but click a button.<br><br>
+
+            With that in mind, I started thinking about ways to programmatically extract who is generating most
+            of the thoughts that are permeating discussion on a given topic. I landed on doing some graph/network
+            analysis, very similar to a "social media network" analysis. However, I want to focus on "who retweeted
+            whom" and whether there are any "big players" that lead the discussions that see a lot of retweeting.<br>
+
+            <h4>Getting some retweets</h4>
+
+            The main idea behind a network analysis is that we want to put every known quantity onto a piece of paper
+            then draw lines that link up all the quantities that know about each other. Then we can do our analysis to
+            determine connections between people, how important people are in the discussion groups, etc. So first
+            we need to get our data and build a network.<br><br>
+
+            To get the data, I built a twitter streamer (<a href="https://github.com/ZWMiller/network_analysis_tweets/blob/master/twitter_streamer.py">here</a>) that uses the pre-built Twitter API
+            and loads every new tweet
+            as it is posted. To help focus the analysis, I only kept tweets that had the words "trump" or "Trump" in
+            them because like him or hate him, people are talking about him on Twitter. So we're going to be asking the
+            question, "who is driving discussion about Trump on Twitter?" I then threw out all the "trumpy" tweets
+            that weren't retweets, since I'm interested in finding who is driving the discussion
+            via commonly retweeted items. Finally, I extracted just the user names and stored them in a file for later
+            analysis. So when I was done, I had a file that looked like this:
+            <div class="general_code">
+            <pre><code><small>    original_tweeter_name1, retweeter_name1
+    original_tweeter_name2, retweeter_name2
+    original_tweeter_name1, retweeter_name3
+    original_tweeter_name3, retweeter_name1
+    ...</small></code></pre>
+            </div>
+            With this data, I was ready to build my network. Before that, let's take a quick look at what a network
+            for this simple example data. Once we add a bunch of data, it will get quite complicated to
+            understand fundamentally what is happening. Check out this diagram of an example network.<br><br>
+            <img src="images/simple_network.png" class="pics">
+            We can see that each original tweeter or retweeter gets their own location on the map as a <b>node</b>. We
+            can then connect each node to all the other nodes it has interacted with via an <b>edge</b>, which are shown
+            as lines in this diagram. The type of analysis we want to do is to figure out who among the users are acting
+            like hubs of information for the twitter discussions. In this case, we can see that <i>OT_2</i> is sort of a hub,
+            in the sense they put out an original thought that had a retweet. However, they aren't really driving the
+            conversation as much as <i>OT_1</i>. That's because <i>OT_1</i> is more "central" to the graph in the sense
+            that more edges and nodes center around it. In this case, <i>RT_1</i> and <i>RT_3</i> both "center" around
+            <i>OT_1</i>. So we want to write code that can construct our graph, and find these most central nodes.
+            <br><br>
+            To do this, I used a python module called <code>networkx</code>. This allows us to add nodes and edges
+            programmatically, building up a huge network of tweeters and retweeters. Then I asked the network to identify
+            high centrality nodes via their degrees of connectivity. In the following plot, I've ID'd the top 20
+            important nodes given a little over 5000 retweets collected in 10 minutes or so on September 1. The size of
+            each node is drawn to correlate to how important that node is (larger = more important).
+            <img src="images/example_network_hubs.png" class="picsWide"><br><br>
+            In the plot's text box, you can see the user name for each of the important hubs of information (where
+            importance means their opinion is being largely retweeted). I do not follow much political media, so when
+            I first saw these names, I was quite confused about whether they were important. However, these people are
+            all political journalists, actors, fact checking sites, politically motivated groups with large twitter
+            followings, or Trump himself. This method has been able to identify people who often tweet about Trump,
+            and also have a presence on Twitter capable of making their words carry out into the "masses." As an
+            example, I had no idea who Daniel Dale was, but he is a journalist for the Toronto Star that covers the
+            US President and has 380k followers. So his voice is on topic, and has a great scalability due to his
+            large number of followers.<br><br>
+
+            I've applied this tool to the topic "Trump", but if used in combination with the twitter streamer, it can
+            be applied to any topic you wish. The streamer and analysis tools are available on my GitHub here:
+            <a href="https://github.com/ZWMiller/network_analysis_tweets">Network Analysis Tool</a>. In particular,
+            you'll need to use the
+            <a href="https://github.com/ZWMiller/network_analysis_tweets/blob/master/twitter_streamer.py">Streamer</a> by
+            modifying the last line of the code to stream around a topic you're interested in and the
+            <a href="https://github.com/ZWMiller/network_analysis_tweets/blob/master/find_network_hubs.py">Hub Finder</a>
+            to find the top users that are acting as information hubs.<br><br>
+
+            I'll have a follow up post to this next week focusing on finding communities inside of a network, and how
+            that can be used to find people that are sharing similar "discussions" on twitter - which will allow us to
+            identify the "echo chamber" effect that many politics experts are decrying as a bad sign for democracy.<br><br>
+
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2018 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>
