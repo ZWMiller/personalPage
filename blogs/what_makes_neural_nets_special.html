@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <!-- For viewing the page on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>
+      What makes neural networks so special?
+    </title>
+    <link rel="stylesheet" href="../css/project_style.css">
+    <link rel="icon" type="image/png" href="../images/favicon2.png" sizes="32x32">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+  </head>
+  <body>
+    <div id="content">
+      <center>
+        <div id="logo">
+          <img src="../images/Logo_v3_200_by_200.png" alt="ZWM Logo">
+          <div id="logoT">
+            <h1>Zachariah W Miller, PhD</h1>
+            <h3>Data Science &middot; Physics &middot; Software</h3>
+            <h3>zachariah.w.miller@gmail.com</h3>
+          </div>
+        </div>
+      </center>
+      <!-- <center>
+        <div id="logo">
+        <img src="../images/sampleBanner.png" alt="ZWM Banner">
+        </div>
+        </center>-->
+        <center>
+          <div id="linkBar">
+            <hr>
+            <ul>
+              <li><a href="../index.html">Home</a></li>
+              <li><a href="../projects.html">Projects</a></li>
+              <li><a href="../blog.html">Blog</a></li>
+              <li><a href="../resume.html">Resum&eacute;</a></li>
+              <li><a href="../about.html">About</a></li>
+            </ul>
+            <hr>
+            <hr>
+          </div>
+        </center>
+        <br>
+        <main>
+        <div id="article">
+          <br>
+          <h3>What makes neural networks so special?</h3>
+          <small>Oct. 2, 2018 - General Machine Learning</small>
+          <br><br>
+          <small><i>Recently I answered a question on Quora about
+            <a href="https://www.quora.com/What-is-an-advantage-of-a-neural-network-over-a-linear-regression-model">What
+              is an advantage of a neural network over a linear regression model?</a>. I spent a lot of time
+          crafting the answer, so I wanted to capture that answer in blog form for others to see as well. This
+          is that blog. Enjoy!</i></small><br><br>
+
+          One common question is why are data scientists so bent out of shape about how great neural nets (NNs) are.
+          In particular, why should we care about this technique when we have linear regression available to us?<br><br>
+
+          The neural net brings essentially two things to the table on top of regression: Automated Feature Engineering
+          and Non-Linear Features. Let's explore these in more detail.
+
+          <h4>Automated Feature Engineering</h4>
+          Let's start by looking at a fairly simple neural net (it says "next simplest" because I've taken this image
+          out of a lecture I give at Metis).
+
+          <img src="images/nn_special_1.png" class="picsWide" alt="Single Hidden Layer NN">
+          We have inputs on the left hand side (x1, x2) and then we have some hidden nodes (orange) and then these
+          combine on the other side to form the prediction. Let’s break down what the “sides of the neural net are
+          doing”.<br>
+
+          <img src="images/nn_special_2.png" class="picsWide" alt="Single Hidden Layer NN - left side">
+
+          The left hand side is using a set of adjustable weights (W1 - W8) to figure out how to combine inputs x1 and
+          x2 in a the best way to be predictive. This is essentially automated feature engineering. We allow the network
+          to adjust those weights (they’re basically coefficients just like in linear regression), but it does so by
+          learning how to adjust them in a way that makes my prediction the most accurate. Next:
+
+          <img src="images/nn_special_3.png" class="picsWide" alt="Single Hidden Layer NN - right side">
+
+          The right hand side is essentially just linear regression. Weights W9 - W13 are just coefficients that treat
+          the hidden layer values as inputs to a regression. So the value at the red output node is:
+          <br><br>
+          <code>W9*1 + W10*hidden_node_1 + W11*hidden_node_2 … + W13*hidden_node_4</code><br><br>
+          where the 1 is coming from the blue bias term (the y-intercept). So all together, the network learns how to
+          best combine the inputs to make the best possible linear regression.<br>
+
+          <h4>Non-Linear Features</h4>
+          The other thing neural networks bring to the table is the ability to have non-linearity in our models. Let’s
+          look at introducing an “activation function.”
+
+          <img src="images/nn_special_4.png" class="picsWide" alt="Activation Functions - Tanh">
+
+          I can stick a function like Tanh after the hidden layers (or after any node, really) and that means that my
+          combinations of data are no longer just looking at linear combinations of my inputs. My regression can now be
+          squiggly, and adapt to whatever input shape makes things the most predictive. There are lots of activation
+          functions, and all of them do different things. For example, Tanh introduces smooth curves to my regression
+          (it’s a little more complex than that, but let’s just keep it simple for now). Instead of Tanh, I might try
+          the “Rectified Linear Unit” or ReLU that looks like this:
+
+          <img src="images/nn_special_5.png" class="picsWide" alt="Activation Functions - ReLU">
+
+          Which would allow for finding hard turning points in my data and adjusting for that (again, over simplifying).
+          It doesn’t really matter what shape I choose, as long as it introduces non-linearity (though in practice, we
+          tend to pick from 5 or so common activations because we need functions with easy derivatives… that’s a
+          discussion for another time).<br><br>
+
+          The main thing is, that makes neural nets much more adaptive to weird datashapes than a regular linear
+          regression would be. I could go through and do a ton of work feature engineering and introducing non-linear
+          terms by hand… or I could just hand it to a neural net and say go.<br>
+
+          <h4>The Downsides to Consider</h4>
+
+          As the saying goes, there's no free lunch. So what are some of the cons to neural nets?<br><br>
+
+          <b>1)</b> Requires a LOT of data because there are a lot of weights to train. In our simple network, we already have
+          13 weights, when a regular linear regression would take 3.<br><br>
+          <b>2)</b> Requires way more computation time than a linear regression to actually learn things.<br><br>
+          <b>3)</b> Are prone to overfitting to the data because they can get supper wiggly and mimic the data exactly
+          instead of finding the trends<br><br>
+          <b>4)</b> Can be very slow to predict. To predict here, I need to do 8 multiplications, 4 sums, 4
+          transformations, 5 multiplications, and a final sum. Do predict in linear regression I need to do: 3
+          multiplications and a sum.<br><br>
+
+          Neural Nets are powerful tools in the toolbox of a data scientist. They just come with some extra
+          responsibility. I think of it like this: if linear regression is a swiss army knife, a neural net is a
+          swiss army laser torch. It has the capability of doing everything the knife does, plus way more. However,
+          it also requires more resources to make it work, time and care to make sure you aren't accidentally setting a
+          building on fire, and more time to make sure it only made the cut you wanted instead of accidentally cutting
+          through everything in it's path. A neural net may be the right tool for the job, but if so, you just have to
+          know you're wielding a powerful tool, and take the appropriate precautions.<br><br>
+          <span class="clear"></span>
+        </main>
+        <footer>
+          <center>
+            <div id="footer">
+              <hr>
+              <div id="mediaLinks">
+                <ul>
+                  <li><a href="https://www.linkedin.com/in/zachariah-miller/"><img src="../images/linkedinLogo.png"></a></li>
+                  <li><a href="https://github.com/zwmiller"><img src="../images/githubLogo2.png"></a></li>
+                  <li><a href="https://twitter.com/zaglamir"><img src="../images/twitterLogo.png"></a></li>
+                  <li><a href="https://www.facebook.com/zachmilller"><img src="../images/facebookLogo.png"></a></li>
+                  <li><a href="https://www.youtube.com/zaglamir"><img src="../images/youtubeLogo.png"></a></li>
+                </ul>
+                <br>
+                <small>Copyright &copy; 2017 Zachariah Miller</small>
+                <br>
+                <br>
+              </div>
+          </center>
+        </footer>
+        </content>
+  </body>
+</html>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-78141736-2', 'auto');
+ga('send', 'pageview');
+
+</script>
